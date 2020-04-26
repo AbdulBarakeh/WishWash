@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, user.getUid());
                 ((TextView) findViewById(R.id.userId)).setText(user.getUid());
 
-                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                Intent intent = new Intent(LoginActivity.this, TempMenu.class);
                 startActivity(intent);
 
             } else {
