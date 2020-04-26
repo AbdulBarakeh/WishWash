@@ -10,4 +10,4 @@ It's important that you follow these steps before you push the next time.
 3. you should see a file called "google-services.json"
 4. use the command `git rm --cached google-services.json`
 
-This last command ensures that the mentioned file is removed from gits tracking system.
+This last command ensures that the mentioned file is removed from git's tracking system.
