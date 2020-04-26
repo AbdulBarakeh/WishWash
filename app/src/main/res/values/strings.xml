@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">wishwash</string>
+    <string name="write_message_hint">Write message</string>
+    <string name="send_btn">SEND</string>
 </resources>

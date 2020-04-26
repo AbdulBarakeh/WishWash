@@ -34,7 +34,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat);
 
         Intent getFromUser = getIntent();
         final int guestId = getFromUser.getIntExtra("userId",69);

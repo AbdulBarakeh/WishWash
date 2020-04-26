@@ -7,8 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import abdul.firebase.chat.Adaptors.UserAdapter;
-import abdul.firebase.chat.R;
+
 
 public class UserViewHolder extends RecyclerView.ViewHolder {
     public ImageView picture;

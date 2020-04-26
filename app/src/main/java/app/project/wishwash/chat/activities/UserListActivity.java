@@ -10,9 +10,6 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-import abdul.firebase.chat.Adaptors.UserAdapter;
-import abdul.firebase.chat.R;
-import abdul.firebase.chat.User;
 
 public class UserListActivity extends AppCompatActivity {
     List<User> users = new ArrayList<>();

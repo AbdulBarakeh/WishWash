@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-import app.project.wishwash.MenuActivity;
 import app.project.wishwash.R;
 
 public class LoginActivity extends AppCompatActivity {
