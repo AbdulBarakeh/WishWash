@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import app.project.wishwash.R;
+import app.project.wishwash.chat.adaptors.UserAdapter;
 
 
 public class UserViewHolder extends RecyclerView.ViewHolder {

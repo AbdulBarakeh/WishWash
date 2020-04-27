@@ -10,6 +10,10 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.project.wishwash.R;
+import app.project.wishwash.chat.adaptors.UserAdapter;
+import app.project.wishwash.chat.models.User;
+
 
 public class UserListActivity extends AppCompatActivity {
     List<User> users = new ArrayList<>();
