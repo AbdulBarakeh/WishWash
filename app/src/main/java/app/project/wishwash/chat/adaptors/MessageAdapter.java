@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -22,7 +25,7 @@ import app.project.wishwash.chat.viewholders.GuestMessageViewHolder;
 import app.project.wishwash.chat.viewholders.OwnerMessageViewHolder;
 
 // SOURCE: https://medium.com/@gilbertchristopher/a-recyclerview-with-multiple-view-type-22619a5ad365
-public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<BaseMessageViewHolder> {
     private static final int TYPE_GUEST = 0;
     private static final int TYPE_OWNER = 1;
     private List<Message> data;
@@ -41,7 +44,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
+    public BaseMessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
         Context context = parent.getContext();
         if (viewType == TYPE_GUEST){
             View view = LayoutInflater.from(context).inflate(R.layout.guest_chat,parent,false);
@@ -57,17 +60,21 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder , int position) {
+    public void onBindViewHolder(@NonNull BaseMessageViewHolder holder , int position) {
         Message message = data.get(position);
-        if (holder == OwnerMessageViewHolder) {
-            if (data.get(position).getClass() == GuestUser.class){
-                GuestUser guestElement = (GuestUser) data.get(position);
-                holder.bind(guestElement);
-            }
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference user1Reference = FirebaseDatabase.getInstance().getReference("Users").child(message.getReceiver());
+//        DatabaseReference user2Reference = FirebaseDatabase.getInstance().getReference("Users").child(message.getSender());
+        if (currentUser.getUid().equals(message.getSender().getId())){
+            holder = new OwnerMessageViewHolder(holder.itemView);
+            holder.bind(message);
+            //OWNER VIEW
+
         }
-        if (data.get(position).getClass() == OwnerUser.class){
-            OwnerUser ownerElement = (OwnerUser) data.get(position);
-            holder.bind(ownerElement);
+        if (!currentUser.getUid().equals(message.getSender().getId())){
+            holder = new GuestMessageViewHolder(holder.itemView);
+            holder.bind(message);
+            //GUEST
         }
     }
 
@@ -79,10 +86,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (data.get(position).getSender().equals(firebaseUser.getUid())){
+        if (data.get(position).getSender().getId().equals(firebaseUser.getUid())){
             return TYPE_OWNER;
         }
-        else if (data.get(position).getReceiver().equals(firebaseUser.getUid())){
+        else if (data.get(position).getReceiver().getId().equals(firebaseUser.getUid())){
             return TYPE_GUEST;
         }
         else {

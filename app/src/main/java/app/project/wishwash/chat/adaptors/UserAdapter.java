@@ -16,7 +16,7 @@ import app.project.wishwash.chat.viewholders.UserViewHolder;
 
 public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     //Inspiration: Assignment 2 by AU590917
-    private List<User> users = new ArrayList<>();
+    private List<User> users;
     private OnItemClickListener CardClickListener;
     private Context context;
 
@@ -51,4 +51,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public int getItemCount() {
         return users.size();
     }
+
+    public void updateUsers(List<User> users){
+        this.users = users;
+        notifyDataSetChanged();
+    }
+
 }

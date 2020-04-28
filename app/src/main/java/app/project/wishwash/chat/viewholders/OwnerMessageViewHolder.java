@@ -4,10 +4,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import abdul.firebase.chat.ViewHolders.BaseMessageViewHolder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class OwnerMessageViewHolder extends BaseMessageViewHolder<OwnerUser> {
+import app.project.wishwash.R;
+import app.project.wishwash.chat.models.Message;
+
+public class OwnerMessageViewHolder extends BaseMessageViewHolder<Message> {
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private TextView name;
     private TextView text;
     public OwnerMessageViewHolder(@NonNull View itemView) {
@@ -17,8 +24,8 @@ public class OwnerMessageViewHolder extends BaseMessageViewHolder<OwnerUser> {
     }
 
     @Override
-    public void bind(OwnerUser user) {
-        name.setText(user.getName());
-        text.setText(user.message.getMessage());
+    public void bind(Message message) {
+        name.setText(firebaseUser.getDisplayName());
+        text.setText(message.getMessage());
     }
 }

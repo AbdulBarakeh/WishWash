@@ -1,10 +1,10 @@
 package app.project.wishwash.chat.viewholders;
 
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 //BaseViewholder is an abstract template class which makes it possible to have two viewholders in a recyclerview
 public abstract class BaseMessageViewHolder<T> extends RecyclerView.ViewHolder {
@@ -13,4 +13,3 @@ public abstract class BaseMessageViewHolder<T> extends RecyclerView.ViewHolder {
     }
     public abstract void bind(T viewType);
 }
-

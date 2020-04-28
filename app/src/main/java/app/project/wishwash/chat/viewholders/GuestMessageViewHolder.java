@@ -4,12 +4,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import app.project.wishwash.R;
-import app.project.wishwash.chat.models.GuestUser;
+import app.project.wishwash.chat.models.Message;
 
-public class GuestMessageViewHolder extends BaseMessageViewHolder<GuestUser> {
+//BaseViewholder is an abstract template class which makes it possible to have two viewholders in a recyclerview
+public class GuestMessageViewHolder extends BaseMessageViewHolder<Message> {
     private TextView name;
     private TextView text;
 
@@ -20,8 +22,9 @@ public class GuestMessageViewHolder extends BaseMessageViewHolder<GuestUser> {
     }
 
     @Override
-    public void bind(GuestUser user) {
-        name.setText(user.getName());
-        text.setText(user.message.getMessage());
+    public void bind(Message message) {
+        name.setText(message.getSender().getName());
+        text.setText(message.getMessage());
     }
 }
+

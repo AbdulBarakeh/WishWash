@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Message {
     private String message;
-    private int id;
+    private String id;
     private String time;
-    private String sender;
-    private String receiver;
+    private User sender;
+    private User receiver;
 
 
-    public Message(String message , String time , String sender , String receiver) {
+    public Message(String message , String time , User sender , User receiver) {
         this.message = message;
         this.time = time;
         this.sender = sender;
@@ -25,11 +25,11 @@ public class Message {
         this.message = message;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,19 +41,19 @@ public class Message {
         this.time = time;
     }
 
-    public String getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
-    public String getReceiver() {
+    public User getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
 }
