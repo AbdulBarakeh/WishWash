@@ -116,10 +116,10 @@ public class ChatActivity extends AppCompatActivity {
                 data.clear();
                 for (DataSnapshot snap : dataSnapshot.getChildren()){
                     Message currentMessage = snap.getValue(Message.class);
-                    if (currentMessage.getReceiver().getId().equals(message.getReceiver().getId()) &&
-                            currentMessage.getSender().getId().equals(message.getSender().getId()) ||
-                            currentMessage.getReceiver().getId().equals(message.getSender().getId()) &&
-                                    currentMessage.getSender().getId().equals(message.getReceiver().getId())){
+                    if (currentMessage.getReceiver().getUserId().equals(message.getReceiver().getUserId()) &&
+                            currentMessage.getSender().getUserId().equals(message.getSender().getUserId()) ||
+                            currentMessage.getReceiver().getUserId().equals(message.getSender().getUserId()) &&
+                                    currentMessage.getSender().getUserId().equals(message.getReceiver().getUserId())){
                         data.add(currentMessage);
 
                     }

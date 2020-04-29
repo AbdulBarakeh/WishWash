@@ -1,33 +1,29 @@
 package app.project.wishwash.chat.models;
 
 public class User {
-    String id;
-    String name;
-//    Boolean currentUser;
-//    Message message;
+    String userId;
+    String userName;
 
     public User(){}
-    public User(String id , String name) {
-        this.id = id;
-        this.name = name;
+
+    public User(String userId , String userName) {
+        this.userId = userId;
+        this.userName = userName;
     }
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
-    public void setId(String id) {
-        this.id = id;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
-    public String getName() {
-        return name;
+
+    public String getUserName() {
+        return userName;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-//    public Message getMessage() {
-//        return message;
-//    }
-//    public void setMessage(Message message) {
-//        this.message = message;
-//    }
 }

@@ -65,13 +65,13 @@ public class MessageAdapter extends RecyclerView.Adapter<BaseMessageViewHolder> 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 //        DatabaseReference user1Reference = FirebaseDatabase.getInstance().getReference("Users").child(message.getReceiver());
 //        DatabaseReference user2Reference = FirebaseDatabase.getInstance().getReference("Users").child(message.getSender());
-        if (currentUser.getUid().equals(message.getSender().getId())){
+        if (currentUser.getUid().equals(message.getSender().getUserId())){
             holder = new OwnerMessageViewHolder(holder.itemView);
             holder.bind(message);
             //OWNER VIEW
 
         }
-        if (!currentUser.getUid().equals(message.getSender().getId())){
+        if (!currentUser.getUid().equals(message.getSender().getUserId())){
             holder = new GuestMessageViewHolder(holder.itemView);
             holder.bind(message);
             //GUEST
@@ -86,10 +86,10 @@ public class MessageAdapter extends RecyclerView.Adapter<BaseMessageViewHolder> 
     @Override
     public int getItemViewType(int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (data.get(position).getSender().getId().equals(firebaseUser.getUid())){
+        if (data.get(position).getSender().getUserId().equals(firebaseUser.getUid())){
             return TYPE_OWNER;
         }
-        else if (data.get(position).getReceiver().getId().equals(firebaseUser.getUid())){
+        else if (data.get(position).getReceiver().getUserId().equals(firebaseUser.getUid())){
             return TYPE_GUEST;
         }
         else {

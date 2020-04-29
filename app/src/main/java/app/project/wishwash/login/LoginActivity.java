@@ -87,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
     private void addUserToDB(User user){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("userId", user.getId());
-        userMap.put("userName", user.getName());
+        userMap.put("userId", user.getUserId());
+        userMap.put("userName", user.getUserName());
         dbRef.child("users").push().setValue(userMap);
     }
 }

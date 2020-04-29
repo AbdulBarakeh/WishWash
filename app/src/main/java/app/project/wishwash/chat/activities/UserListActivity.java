@@ -16,10 +16,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import app.project.wishwash.R;
 import app.project.wishwash.chat.adaptors.UserAdapter;
+import app.project.wishwash.chat.models.Booking;
 import app.project.wishwash.chat.models.User;
 
 
@@ -49,8 +51,8 @@ public class UserListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Intent GoToChat = new Intent(UserListActivity.this, ChatActivity.class);
-                GoToChat.putExtra("userId",users.get(position).getId());
-                GoToChat.putExtra("username",users.get(position).getName());
+                GoToChat.putExtra("userId",users.get(position).getUserId());
+                GoToChat.putExtra("username",users.get(position).getUserName());
                 startActivity(GoToChat);
             }
         });
@@ -62,10 +64,10 @@ public class UserListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snap : dataSnapshot.getChildren()){
-                    User currentuser = snap.getValue(User.class);
-                    Toast.makeText(UserListActivity.this , currentuser.getId() + "1", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(UserListActivity.this , currentuser.getName() + "2" , Toast.LENGTH_SHORT).show();
+                    User currentUser = snap.getValue(User.class);
+                    users.add(currentUser);
                 }
+                userAdapter.updateUsers(users);
             }
 
             @Override
@@ -76,4 +78,29 @@ public class UserListActivity extends AppCompatActivity {
 
 
     }
+//    public void GetBookings(){
+//        DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference("bookings");
+//        bookingRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                Booking currentBooking = snapshot.getValue(Booking.class);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+//    public void setBookings(Booking booking){
+//        DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference();
+//        HashMap<String,Object> bookingMap = new HashMap<>();
+//        bookingMap.put("booking",booking);
+//        //Do again
+//        bookingRef.child("bookings").push().setValue(bookingMap);
+//
+//    }
 }

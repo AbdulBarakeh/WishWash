@@ -23,7 +23,7 @@ public class GuestMessageViewHolder extends BaseMessageViewHolder<Message> {
 
     @Override
     public void bind(Message message) {
-        name.setText(message.getSender().getName());
+        name.setText(message.getSender().getUserName());
         text.setText(message.getMessage());
     }
 }
