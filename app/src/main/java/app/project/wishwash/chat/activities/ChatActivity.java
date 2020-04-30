@@ -2,6 +2,7 @@ package app.project.wishwash.chat.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import app.project.wishwash.R;
 import app.project.wishwash.chat.adaptors.MessageAdapter;
@@ -53,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
         String guestName = getFromUser.getStringExtra("username");
         final User guest = new User(guestId,guestName);
         final User owner = new User(firebaseUser.getUid(),firebaseUser.getDisplayName());
-        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(guestId);
+//        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(guestId);
 
 
         messageRecyclerView = findViewById(R.id.chat_recyclerView);
@@ -66,7 +68,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Message currentMessage = new Message(messageInput.getText().toString(),new Date().toString(),owner,guest);
+                Message currentMessage = new Message(UUID.randomUUID().toString(),new Date().toString(),messageInput.getText().toString(),owner,guest);
                 SendMessage(currentMessage);
                 data.add(currentMessage);
                 messageInput.setText("");
@@ -75,14 +77,17 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-//        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(guestId);
-        dbReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference dbRefMessage = FirebaseDatabase.getInstance().getReference("users");
+        dbRefMessage.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                User user = dataSnapshot.getValue(User.class);
-                Message currentReadMessage = new Message("",new Date().toString(),guest,owner);
-                ReadMessage(currentReadMessage);//Sleep on it TODO: Figure out how to
-
+                User myUser = new User(firebaseUser.getUid(),firebaseUser.getDisplayName());
+                for (DataSnapshot snap : dataSnapshot.getChildren()){
+                    User currentUser = snap.getValue(User.class);
+                    if (!currentUser.getUserId().equals(myUser.getUserId())){
+                        ReadMessage(new Message(UUID.randomUUID().toString(),new Date().toString(),"",currentUser,myUser));
+                    }
+                }
             }
 
             @Override
@@ -97,8 +102,8 @@ public class ChatActivity extends AppCompatActivity {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String,Object> map = new HashMap<>();
-        map.put("messageId",message.getId());
-        map.put("messageDate", message.getTime());
+        map.put("messageId",message.getMessageId());
+        map.put("messageDate", message.getMessageDate());
         map.put("message",message.getMessage());
         map.put("sender", message.getSender());
         map.put("receiver",message.getReceiver());

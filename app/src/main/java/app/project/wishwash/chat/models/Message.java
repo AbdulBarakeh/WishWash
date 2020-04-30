@@ -3,18 +3,37 @@ package app.project.wishwash.chat.models;
 import java.util.Date;
 
 public class Message {
+    private String messageId;
+    private String messageDate;
     private String message;
-    private String id;
-    private String time;
     private User sender;
     private User receiver;
 
+    public Message() {
+    }
 
-    public Message(String message , String time , User sender , User receiver) {
+    public Message(String messageId , String messageDate , String message , User sender , User receiver) {
+        this.messageId = messageId;
+        this.messageDate = messageDate;
         this.message = message;
-        this.time = time;
         this.sender = sender;
         this.receiver = receiver;
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
+    public String getMessageDate() {
+        return messageDate;
+    }
+
+    public void setMessageDate(String messageDate) {
+        this.messageDate = messageDate;
     }
 
     public String getMessage() {
@@ -23,22 +42,6 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public User getSender() {
