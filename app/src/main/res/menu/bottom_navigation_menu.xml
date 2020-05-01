@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/Navigation_Calendar"
+        android:icon="@drawable/icon_calendar"
+        android:title="@string/calendar"/>
+
+    <item
+        android:id="@+id/Navigation_Bookings"
+        android:icon="@drawable/icon_bookings"
+        android:title="@string/bookings"/>
+
+    <item
+        android:id="@+id/Navigation_Chat"
+        android:icon="@drawable/icon_chat"
+        android:title="@string/chat"/>
+
+    <item
+        android:id="@+id/Navigation_Tips"
+        android:icon="@drawable/icon_tips"
+        android:title="@string/tips"/>
+
+</menu>
