@@ -11,13 +11,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.wishwash_demo.Fragments.Abdul.dummy.BookingContent;
-import com.example.wishwash_demo.Fragments.BookingsFragment;
-import com.example.wishwash_demo.Fragments.CalendarFragment;
-import com.example.wishwash_demo.Fragments.ChatFragment;
-import com.example.wishwash_demo.Fragments.TipsFragment;
-import com.example.wishwash_demo.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import app.project.wishwash.R;
+import app.project.wishwash.booking.BookingContent.BookingItem;
+import app.project.wishwash.calender.CalendarFragment;
+import app.project.wishwash.chat.ChatFragment;
+import app.project.wishwash.tips.TipsFragment;
 
 public class BookingActivity extends AppCompatActivity implements BookingFragment.OnListFragmentInteractionListener {
     private FragmentTransaction transaction;
@@ -49,10 +49,7 @@ public class BookingActivity extends AppCompatActivity implements BookingFragmen
         getSupportActionBar().setCustomView(R.layout.action_bar);
     }
 
-    @Override
-    public void onListFragmentInteraction(BookingContent.BookingItem item) {
 
-    }
     // When BottomNavigationView item is clicked, inflate belonging fragment.
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -81,4 +78,10 @@ public class BookingActivity extends AppCompatActivity implements BookingFragmen
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    @Override
+    public void onListFragmentInteraction(BookingItem item) {
+
+    }
+
 }

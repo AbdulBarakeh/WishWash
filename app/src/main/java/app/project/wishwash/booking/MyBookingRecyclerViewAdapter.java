@@ -8,23 +8,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.wishwash_demo.Fragments.Abdul.BookingFragment.OnListFragmentInteractionListener;
-import com.example.wishwash_demo.Fragments.Abdul.dummy.BookingContent.BookingItem;
-import com.example.wishwash_demo.R;
 
 import java.util.List;
 
+import app.project.wishwash.R;
+import app.project.wishwash.booking.BookingContent.BookingItem;
+
 /**
  * {@link RecyclerView.Adapter} that can display a {@link BookingItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link BookingFragment.OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBookingRecyclerViewAdapter.ViewHolder> {
 
     private final List<BookingItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final BookingFragment.OnListFragmentInteractionListener mListener;
 
-    public MyBookingRecyclerViewAdapter(List<BookingItem> items , OnListFragmentInteractionListener listener) {
+    public MyBookingRecyclerViewAdapter(List<BookingItem> items , BookingFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

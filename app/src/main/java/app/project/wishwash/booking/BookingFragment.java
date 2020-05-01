@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.wishwash_demo.R;
-import com.example.wishwash_demo.Fragments.Abdul.dummy.BookingContent;
-import com.example.wishwash_demo.Fragments.Abdul.dummy.BookingContent.BookingItem;
+
+import app.project.wishwash.R;
 
 /**
  * A fragment representing a list of Items.
@@ -105,6 +104,7 @@ public class BookingFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(BookingItem item);
+        void onListFragmentInteraction(BookingContent.BookingItem item);
+
     }
 }

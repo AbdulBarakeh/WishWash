@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.wishwash_demo.R;
+import app.project.wishwash.R;
+
 
 public class BookingsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

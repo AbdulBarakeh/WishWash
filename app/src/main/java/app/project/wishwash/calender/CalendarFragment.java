@@ -16,10 +16,6 @@ import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.wishwash_demo.Booking;
-import com.example.wishwash_demo.R;
-import com.example.wishwash_demo.User;
-import com.example.wishwash_demo.WashingMachine;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +28,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import app.project.wishwash.Booking;
+import app.project.wishwash.R;
+import app.project.wishwash.User;
+import app.project.wishwash.WashingMachine;
 
 public class CalendarFragment extends Fragment {
     private CalendarFragmentListener listener;

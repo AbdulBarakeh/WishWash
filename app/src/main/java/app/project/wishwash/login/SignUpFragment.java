@@ -14,13 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.wishwash_demo.Activities.CalendarActivity;
-import com.example.wishwash_demo.Activities.SignInActivity;
-import com.example.wishwash_demo.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import app.project.wishwash.R;
+import app.project.wishwash.calender.CalendarActivity;
 
 public class SignUpFragment extends Fragment {
     // Declaring variables:

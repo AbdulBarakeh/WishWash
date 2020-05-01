@@ -6,14 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.wishwash_demo.Fragments.Abdul.BookingFragment;
-import com.example.wishwash_demo.Fragments.Abdul.dummy.BookingContent;
-import com.example.wishwash_demo.Fragments.BookingsFragment;
-import com.example.wishwash_demo.Fragments.CalendarFragment;
-import com.example.wishwash_demo.Fragments.ChatFragment;
-import com.example.wishwash_demo.Fragments.NewBookingFragment;
-import com.example.wishwash_demo.Fragments.TipsFragment;
-import com.example.wishwash_demo.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Calendar;
@@ -25,6 +17,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import app.project.wishwash.R;
+import app.project.wishwash.booking.BookingContent;
+import app.project.wishwash.booking.BookingFragment;
+import app.project.wishwash.booking.NewBookingFragment;
+import app.project.wishwash.chat.ChatFragment;
+import app.project.wishwash.tips.TipsFragment;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarFragment.CalendarFragmentListener, BookingFragment.OnListFragmentInteractionListener {
 

@@ -10,13 +10,13 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.Toast;
 
-import com.example.wishwash_demo.Fragments.SignInSignUpFragment;
-import com.example.wishwash_demo.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import app.project.wishwash.R;
 
 public class SignInActivity extends AppCompatActivity {
     // Declaring variables:
