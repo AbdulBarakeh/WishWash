@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".chat.ChatShellActivity"></activity>
         <activity android:name=".API.VideoActivity"></activity>
         <activity android:name=".login.LoginActivity"></activity>
         <activity android:name=".booking.BookingActivity"></activity>
