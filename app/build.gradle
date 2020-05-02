@@ -41,6 +41,18 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.firebaseui:firebase-ui-database:6.2.1'
+
     implementation files('libs\\YouTubeAndroidPlayerApi.jar')
     implementation files('YouTubeAndroidPlayerApi.jar')
+
+    implementation 'com.google.android.material:material:1.1.0'
+    // Support libraries for BottomNavigationView
+    implementation 'com.android.support:appcompat-v7:29.0.0'
+    implementation 'com.android.support:design:29.0.0'
+    // Firebase - Authenticate with Firebase Using Email Link in Android:
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+
+    // Bottom-navigation bar:
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
 }
