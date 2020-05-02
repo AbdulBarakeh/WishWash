@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorRed"
-    tools:context=".Fragments.SignUpFragment">
+    tools:context=".login.SignUpFragment">
 
     <Button
         android:id="@+id/Button_signupFragment_back"
@@ -43,7 +43,7 @@
         android:id="@+id/EditText_signupFragment_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView_signupFragment_emailTitle"
+        android:layout_below="@+id/TextView_signupFragment_nameTitle"
         android:layout_marginHorizontal="20dp"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
@@ -130,7 +130,7 @@
         android:id="@+id/TextView_signupFragment_emailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView_signupFragment_signup"
+        android:layout_below="@+id/EditText_signupFragment_full_name"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="20dp"
@@ -138,4 +138,15 @@
         android:textSize="15sp"
         android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/TextView_signupFragment_nameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView_signupFragment_signup"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Name"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
 </RelativeLayout>

@@ -12,7 +12,7 @@
 
         <activity android:name=".chat.ChatShellActivity"></activity>
         <activity android:name=".API.VideoActivity"></activity>
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.LoginActivity"></activity>
         <activity android:name=".booking.BookingActivity"></activity>
         <activity android:name=".chat.activities.UserListActivity"></activity>
         <activity android:name=".chat.activities.ChatActivity"></activity>
