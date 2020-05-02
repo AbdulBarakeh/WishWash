@@ -19,13 +19,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import app.project.wishwash.R;
 import app.project.wishwash.calender.CalendarActivity;
 
 public class SignUpFragment extends Fragment {
     // Declaring variables:
-    private EditText editText_email, editText_password, editText_password_reentered;
+    private EditText editText_email, editText_password, editText_password_reentered, editText_full_name;
     private Button btn_back, btn_signup;
     private FirebaseAuth firebaseAuth;
 
@@ -47,6 +49,7 @@ public class SignUpFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         // Assigning variables:
+        editText_full_name = v.findViewById(R.id.EditText_signupFragment_full_name);
         editText_email = v.findViewById(R.id.EditText_signupFragment_email);
         editText_password = v.findViewById(R.id.EditText_signupFragment_password);
         editText_password_reentered = v.findViewById(R.id.EditText_signupFragment_passwordReenter);
@@ -64,6 +67,7 @@ public class SignUpFragment extends Fragment {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String full_name = editText_full_name.getText().toString();
                 String email = editText_email.getText().toString();
                 String password = editText_password.getText().toString();
                 String password_reentered = editText_password_reentered.getText().toString();
@@ -83,6 +87,11 @@ public class SignUpFragment extends Fragment {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getActivity(), "SignUp unsuccessful. Please try again", Toast.LENGTH_SHORT).show();
                             } else {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(full_name).build();
+
+                                user.updateProfile(profileUpdates);
                                 Toast.makeText(getActivity(), "You have successfully signed up to our service", Toast.LENGTH_SHORT).show();
                                 Log.d("SignUpFragment", "Successful sign up.");
                                 Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
