@@ -76,8 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-                Intent intent = new Intent(LoginActivity.this, TempMenu.class);
-                startActivity(intent);
             } else {
                 Log.d(TAG, response.getError().getMessage());
             }
