@@ -41,5 +41,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.firebaseui:firebase-ui-database:6.2.1'
-
+    implementation files('libs\\YouTubeAndroidPlayerApi.jar')
+    implementation files('YouTubeAndroidPlayerApi.jar')
 }
