@@ -40,6 +40,19 @@
         android:textStyle="bold"/>
 
     <EditText
+        android:id="@+id/EditText_signupFragment_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView_signupFragment_emailTitle"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        android:backgroundTint="@color/colorWhite"
+        android:hint="@string/email_hint"
+        android:imeOptions="actionDone"
+        android:inputType="textEmailAddress" />
+
+    <EditText
         android:id="@+id/EditText_signupFragment_passwordReenter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
