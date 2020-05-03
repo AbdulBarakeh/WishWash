@@ -3,6 +3,7 @@ package app.project.wishwash.booking;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import app.project.wishwash.Booking;
 import app.project.wishwash.R;
 
 /**
@@ -28,6 +41,9 @@ public class BookingFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private List<Booking> listOfBookings = new ArrayList<>();
+    private DatabaseReference dbRef;
+    private FirebaseUser user;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,11 +54,11 @@ public class BookingFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static BookingFragment newInstance(int columnCount) {
+    public static BookingFragment newInstance() {
         BookingFragment fragment = new BookingFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT , columnCount);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putInt(ARG_COLUMN_COUNT , columnCount);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -59,18 +75,30 @@ public class BookingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater , ViewGroup container ,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_booking_list , container , false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context , mColumnCount));
+        Context context = view.getContext();
+        RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        final MyBookingRecyclerViewAdapter bookingAdapter = new MyBookingRecyclerViewAdapter(listOfBookings , mListener);
+        recyclerView.setAdapter(bookingAdapter);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        dbRef = FirebaseDatabase.getInstance().getReference("bookings");
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap : dataSnapshot.getChildren()){
+                    Booking currentBooking = snap.getValue(Booking.class);
+                    if (currentBooking.getUser().getUserId().equals(user.getUid())){
+                    listOfBookings.add(currentBooking);
+                    }
+                }
+                bookingAdapter.updateBooking(listOfBookings);
             }
-            recyclerView.setAdapter(new MyBookingRecyclerViewAdapter(BookingContent.ITEMS , mListener));
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return view;
     }
 
@@ -104,7 +132,7 @@ public class BookingFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(BookingContent.BookingItem item);
+        void onListFragmentInteraction(Booking item);
 
     }
 }

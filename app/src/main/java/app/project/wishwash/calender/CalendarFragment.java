@@ -35,7 +35,7 @@ import java.util.List;
 
 import app.project.wishwash.Booking;
 import app.project.wishwash.R;
-import app.project.wishwash.User;
+import app.project.wishwash.chat.models.User;
 import app.project.wishwash.WashingMachine;
 
 public class CalendarFragment extends Fragment {
@@ -89,7 +89,7 @@ public class CalendarFragment extends Fragment {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userWishWash = new User();
-        userWishWash.setName(firebaseUser.getDisplayName());
+        userWishWash.setUserName(firebaseUser.getDisplayName());
         userWishWash.setUserId(firebaseUser.getUid());
         washingMachine = new WashingMachine("001", "WM1");
         booking = new Booking();
@@ -156,6 +156,7 @@ public class CalendarFragment extends Fragment {
                 booking.setDateMonth(dateMonth);
                 booking.setDateDayOfMonth(dateDayOfMonth);
                 booking.setDateHour(dateHour);
+                booking.setUser(userWishWash);
                 boolean alreadyInDB = false;
 
                 try {
@@ -163,7 +164,7 @@ public class CalendarFragment extends Fragment {
                         if ((booking.getDateYear() == b.getDateYear() && booking.getDateMonth() == b.getDateMonth() &&
                                 booking.getDateDayOfMonth() == b.getDateDayOfMonth() && booking.getDateHour().equals(b.getDateHour()))) {
                             Toast.makeText(getContext(), " Booking is already reserved by "
-                                    + b.getUser().getName(), Toast.LENGTH_LONG).show();
+                                    + b.getUser().getUserName(), Toast.LENGTH_LONG).show();
 
                             alreadyInDB = true;
                         }
@@ -171,9 +172,9 @@ public class CalendarFragment extends Fragment {
 
                     if (!alreadyInDB) {
                         setBookingInFirebase(booking);
-                        List<Booking> userBookingList =  userWishWash.getBookingList();
+                        List<Booking> userBookingList = new ArrayList<>();
                         userBookingList.add(booking);
-                        userWishWash.setBookingList(userBookingList);
+//                        userWishWash.setBookingList(userBookingList);
 
                         Toast.makeText(getContext(), "You have booked "
                                 + booking.getWashingMachine().getName() + " from " + dateHour +

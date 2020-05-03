@@ -2,6 +2,8 @@ package app.project.wishwash;
 
 import java.util.Calendar;
 
+import app.project.wishwash.chat.models.User;
+
 public class Booking {
     int dateYear;
     int dateMonth;
