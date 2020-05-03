@@ -36,13 +36,17 @@ import app.project.wishwash.chat.models.User;
  * Use the {@link UserListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+// SRC: https://developer.android.com/training/basics/fragments/communicating
 public class UserListFragment extends Fragment {
-    private UserListFragmentListener listener;
+    UserListFragmentListener callback;
     List<User> users = new ArrayList<>();
     RecyclerView userRecyclerView;
     RecyclerView.LayoutManager userLayoutManager;
     UserAdapter userAdapter;
 
+    public void setUserListFragmentListener(UserListFragmentListener callback){
+        this.callback = callback;
+    }
     public interface UserListFragmentListener{
         void onUserSent(User user);
 
@@ -99,7 +103,7 @@ public class UserListFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 User user = new User(users.get(position).getUserId(),users.get(position).getUserName());
-                listener.onUserSent(user);
+                callback.onUserSent(user);
             }
         });
         return view;
@@ -109,7 +113,7 @@ public class UserListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof UserListFragmentListener){
-            listener = (UserListFragmentListener) context;
+            callback = (UserListFragmentListener) context;
         }
         else{
             throw new RuntimeException(context.toString() + " must implement UserListFragmentListener" );
@@ -119,7 +123,7 @@ public class UserListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        callback = null;
     }
 
     public void GetUsers(){

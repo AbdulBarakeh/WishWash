@@ -14,6 +14,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:textColor="#000000"
         app:autoSizeTextType="uniform"
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toTopOf="@id/owner_text"

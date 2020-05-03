@@ -21,9 +21,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 import app.project.wishwash.R;
 import app.project.wishwash.calender.CalendarActivity;
+import app.project.wishwash.chat.models.User;
 
 public class SignUpFragment extends Fragment {
     // Declaring variables:
@@ -90,7 +95,6 @@ public class SignUpFragment extends Fragment {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(full_name).build();
-
                                 user.updateProfile(profileUpdates);
                                 Toast.makeText(getActivity(), "You have successfully signed up to our service", Toast.LENGTH_SHORT).show();
                                 Log.d("SignUpFragment", "Successful sign up.");
@@ -105,4 +109,6 @@ public class SignUpFragment extends Fragment {
 
         return v;
     }
+
+
 }
