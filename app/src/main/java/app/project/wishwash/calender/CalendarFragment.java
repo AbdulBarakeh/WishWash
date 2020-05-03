@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,14 +41,14 @@ import app.project.wishwash.WashingMachine;
 public class CalendarFragment extends Fragment {
     private CalendarFragmentListener listener;
     private CalendarView calendarView;
-    private Calendar calendar;
+    private int dateYear, dateMonth, dateDayOfMonth;
+    private String dateHour;
     private Button btn_ok;
     private Spinner spinner_times, spinner_washingMachines;
     private Booking booking;
     private WashingMachine washingMachine;
     private User userWishWash;
-    private List<Booking> bookingList;
-    private int cYear, cMonth, cDayOfMonth, cHour;
+    private List<Booking> firebaseBookingList;
 
     public interface CalendarFragmentListener {
         void onDateChosen(Calendar c);
@@ -61,15 +65,6 @@ public class CalendarFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CalendarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CalendarFragment newInstance(String param1, String param2) {
         CalendarFragment fragment = new CalendarFragment();
         Bundle args = new Bundle();
@@ -96,10 +91,14 @@ public class CalendarFragment extends Fragment {
         userWishWash = new User();
         userWishWash.setName(firebaseUser.getDisplayName());
         userWishWash.setUserId(firebaseUser.getUid());
-
         washingMachine = new WashingMachine("001", "WM1");
-        booking = new Booking(calendar, userWishWash, washingMachine);
-        calendar = Calendar.getInstance();
+        booking = new Booking();
+        firebaseBookingList = new ArrayList<>();
+
+        DateTime dt = new DateTime();
+        dateYear = dt.getYear();
+        dateMonth = dt.getMonthOfYear();
+        dateDayOfMonth = dt.getDayOfMonth();
 
         calendarView = v.findViewById(R.id.CalendarView_CalendarFragment);
         btn_ok = v.findViewById(R.id.Button_calendarFragment_ok);
@@ -111,24 +110,19 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                cYear = year;
-                cMonth = month;
-                cDayOfMonth = dayOfMonth;
-                calendar.set(cYear, cMonth, cDayOfMonth);
+                dateYear = year;
+                dateMonth = month + 1;
+                dateDayOfMonth = dayOfMonth;
             }
         });
 
-        // Spinners viser ikke værdier
-        ArrayAdapter<CharSequence> spinnerTimesAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.times, android.R.layout.simple_spinner_item);
-        spinnerTimesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> spinnerTimesAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.times, R.layout.spinner);
+        spinnerTimesAdapter.setDropDownViewResource(R.layout.spinner);
         spinner_times.setAdapter(spinnerTimesAdapter);
         spinner_times.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String time = parent.getItemAtPosition(position).toString();
-                /*int timeInt = Integer.parseInt(time.substring(0,2));
-                calendar.set(cYear, cMonth, cDayOfMonth, timeInt, 00);
-                booking.setDate(calendar);*/
+                dateHour = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -137,8 +131,8 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        ArrayAdapter<CharSequence> spinnerWMAdapter = ArrayAdapter.createFromResource(getContext(), R.array.washing_machines, android.R.layout.simple_spinner_item);
-        spinnerWMAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> spinnerWMAdapter = ArrayAdapter.createFromResource(getContext(), R.array.washing_machines, R.layout.spinner);
+        spinnerWMAdapter.setDropDownViewResource(R.layout.spinner);
         spinner_washingMachines.setAdapter(spinnerWMAdapter);
         spinner_washingMachines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -157,28 +151,36 @@ public class CalendarFragment extends Fragment {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBookingsFromFirebase(booking);
+                getBookingsFromFirebase();
+                booking.setDateYear(dateYear);
+                booking.setDateMonth(dateMonth);
+                booking.setDateDayOfMonth(dateDayOfMonth);
+                booking.setDateHour(dateHour);
                 boolean alreadyInDB = false;
 
-                for (Booking b: bookingList) {
-                    if (booking.getDate() == b.getDate()) {
-                        Toast.makeText(getContext(), " Booking is already reserved by "
-                                + b.getUser().getName(), Toast.LENGTH_LONG);
+                try {
+                    for (Booking b : firebaseBookingList) {
+                        if ((booking.getDateYear() == b.getDateYear() && booking.getDateMonth() == b.getDateMonth() &&
+                                booking.getDateDayOfMonth() == b.getDateDayOfMonth() && booking.getDateHour().equals(b.getDateHour()))) {
+                            Toast.makeText(getContext(), " Booking is already reserved by "
+                                    + b.getUser().getName(), Toast.LENGTH_LONG).show();
 
-                        alreadyInDB = true;
+                            alreadyInDB = true;
+                        }
                     }
-                }
 
-                if (!alreadyInDB) {
-                    setBookingInFirebase(booking);
-                    bookingList.clear();
-                    bookingList = userWishWash.getBookingList();
-                    bookingList.add(booking);
-                    userWishWash.setBookingList(bookingList);
+                    if (!alreadyInDB) {
+                        setBookingInFirebase(booking);
+                        List<Booking> userBookingList =  userWishWash.getBookingList();
+                        userBookingList.add(booking);
+                        userWishWash.setBookingList(userBookingList);
 
-                    Toast.makeText(getContext(), " You have booked "
-                            + booking.getWashingMachine() + " at " + cHour
-                            + " and two hours ahead", Toast.LENGTH_LONG);
+                        Toast.makeText(getContext(), "You have booked "
+                                + booking.getWashingMachine().getName() + " from " + dateHour +
+                                " on " + dateDayOfMonth + "/" + dateMonth + "/" + dateYear, Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -186,29 +188,32 @@ public class CalendarFragment extends Fragment {
         return v;
     }
 
-    public void setBookingInFirebase(Booking booking) {
+    private void setBookingInFirebase(Booking booking) {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> bookingMap = new HashMap<>();
-        bookingMap.put("date", booking.getDate());
+        bookingMap.put("dateYear", booking.getDateYear());
+        bookingMap.put("dateMonth", booking.getDateMonth());
+        bookingMap.put("dateDayOfMonth", booking.getDateDayOfMonth());
+        bookingMap.put("dateHour", booking.getDateHour());
         bookingMap.put("user", booking.getUser());
         bookingMap.put("washingMachine", booking.getWashingMachine());
         bookingRef.child("bookings").push().setValue(bookingMap);
     }
 
-    public void getBookingsFromFirebase(Booking newBooking){
+    private void getBookingsFromFirebase() {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference("bookings");
+
         bookingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Booking> bookings = new ArrayList<>();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Booking currentBooking = snapshot.getValue(Booking.class);
                     bookings.add(currentBooking);
                 }
 
-                bookingList.clear();
-                bookingList = bookings;
+                firebaseBookingList = bookings;
             }
 
             @Override
