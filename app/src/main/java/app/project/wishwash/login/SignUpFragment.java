@@ -95,10 +95,6 @@ public class SignUpFragment extends Fragment {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(full_name).build();
-
-                                User newUser = new User(user.getUid(), user.getDisplayName());
-                                addUserToDB(newUser);
-
                                 user.updateProfile(profileUpdates);
                                 Toast.makeText(getActivity(), "You have successfully signed up to our service", Toast.LENGTH_SHORT).show();
                                 Log.d("SignUpFragment", "Successful sign up.");
@@ -114,11 +110,5 @@ public class SignUpFragment extends Fragment {
         return v;
     }
 
-    private void addUserToDB(User user){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("userId", user.getUserId());
-        userMap.put("userName", user.getUserName());
-        dbRef.child("users").push().setValue(userMap);
-    }
+
 }

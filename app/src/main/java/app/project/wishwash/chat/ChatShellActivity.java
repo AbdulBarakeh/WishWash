@@ -19,8 +19,9 @@ import app.project.wishwash.chat.fragments.UserListFragment;
 import app.project.wishwash.chat.models.User;
 import app.project.wishwash.tips.TipsFragment;
 
-public class ChatShellActivity extends AppCompatActivity implements UserListFragment.UserListFragmentListener, ChatFragment.ChatFragmentListener {
+public class ChatShellActivity extends AppCompatActivity implements UserListFragment.UserListFragmentListener {
     UserListFragment userListFragment;
+    ChatFragment newChatFragment;
     private Toolbar actionBar;
     private BottomNavigationView bottomNavigationView;
     private FragmentTransaction transaction;
@@ -74,14 +75,23 @@ public class ChatShellActivity extends AppCompatActivity implements UserListFrag
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        if (fragment instanceof UserListFragment){
+            UserListFragment userListFragment = (UserListFragment) fragment;
+            userListFragment.setUserListFragmentListener(this);
+        }
+    }
+
     //UserListFragment
     @Override
     public void onUserSent(User user) {
-//sop
-    }
-    //ChatFragment
-    @Override
-    public void onGuestUserChosen(User guest) {
-        openFragment(ChatFragment.newInstance(guest.getUserId(),guest.getUserName()));
+//        chatFragment.getUser(user);
+        ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentById(R.id.chat_constraint);//Didn't accept R.layout.activity_chat
+//        openFragment(ChatFragment.newInstance(user.getUserId(),user.getUserName()));
+        newChatFragment = new ChatFragment();
+        newChatFragment.newInstance(user.getUserId(),user.getUserName());
+        openFragment(newChatFragment);
     }
 }

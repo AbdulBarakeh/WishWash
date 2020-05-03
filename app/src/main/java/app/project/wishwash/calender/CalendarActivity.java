@@ -7,8 +7,16 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -36,12 +44,16 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     private FragmentManager fragmentManager;
     private SharedPreferences sp;
     private CalendarFragment calendarFragment;
-
+    private ChatFragment newChatFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate called");
         setContentView(R.layout.activity_calendar);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        //placed at the end of the function to ensure that the object has time to update before being accessed
+        validateUserExistence(currentUser);
 
         calendarFragment = new CalendarFragment();
 
@@ -114,6 +126,36 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
 
     @Override
     public void onUserSent(User user) {
+        //        chatFragment.getUser(user);
+        ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentById(R.id.chat_constraint);//Didn't accept R.layout.activity_chat
+//        openFragment(ChatFragment.newInstance(user.getUserId(),user.getUserName()));
+        newChatFragment = new ChatFragment();
+        newChatFragment.getUser(user);
+        newChatFragment.newInstance(user.getUserId(),user.getUserName());
+        openFragment(newChatFragment);
+    }
+    private void addUserToDB(User user){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> userMap = new HashMap<>();
+        userMap.put("userId", user.getUserId());
+        userMap.put("userName", user.getUserName());
+        dbRef.child("users").push().setValue(userMap);
+    }
+    private void validateUserExistence(final FirebaseUser user){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String currentUserId = user.getUid();
+        dbRef.child("users").orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    User newUser = new User(user.getUid(), user.getDisplayName());
+                    addUserToDB(newUser);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 }
