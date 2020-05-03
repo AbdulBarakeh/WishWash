@@ -37,7 +37,6 @@ public class NewBookingFragment extends Fragment {
     private static final String CHOSEN_YEAR = "chosenYear";
     private static final String CHOSEN_MONTH = "chosenMonth";
     private static final String CHOSEN_DAY = "chosenDay";
-    private Booking mbooking;
     List<Booking> bookings;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -95,7 +94,6 @@ public class NewBookingFragment extends Fragment {
         calendar = Calendar.getInstance();
         myUser = new User();
         date.set(mChosenYear, mChosenMonth, mChosenDay);
-        mbooking = new Booking(date, myUser, washingMachine);
         bookings = new ArrayList<>();
 
         // Implement method for TableLayout / RecyclerView

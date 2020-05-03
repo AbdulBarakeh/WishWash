@@ -1,5 +1,9 @@
 package app.project.wishwash.chat.models;
 
+import java.util.List;
+
+import app.project.wishwash.Booking;
+
 public class User {
     String userId;
     String userName;

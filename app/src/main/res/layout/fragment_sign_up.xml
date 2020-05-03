@@ -50,7 +50,7 @@
         android:backgroundTint="@color/colorWhite"
         android:hint="@string/email_hint"
         android:imeOptions="actionDone"
-        android:inputType="textEmailAddress" />
+        android:inputType="textCapWords" />
 
     <EditText
         android:id="@+id/EditText_signupFragment_passwordReenter"

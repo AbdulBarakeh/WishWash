@@ -34,7 +34,8 @@
         android:layout_below="@+id/CalendarView_CalendarFragment"
         android:layout_marginLeft="60dp"
         android:spinnerMode="dropdown"
-        android:layout_marginStart="60dp" />
+        android:layout_marginStart="60dp"
+        />
 
     <Spinner
         android:id="@+id/Spinner_CalendarFragment_WashingMachines"

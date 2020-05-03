@@ -1,8 +1,11 @@
 package app.project.wishwash;
 
 public class WashingMachine {
+
     String Id;
     String Name;
+
+    public WashingMachine () {}
 
     public WashingMachine(String id , String name) {
         Id = id;
