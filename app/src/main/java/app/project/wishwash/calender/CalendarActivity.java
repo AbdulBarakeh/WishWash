@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import app.project.wishwash.API.VideoFragment;
 import app.project.wishwash.R;
 import app.project.wishwash.booking.BookingContent;
 import app.project.wishwash.booking.BookingFragment;
@@ -99,7 +100,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
                             openFragment(UserListFragment.newInstance());
                             return true;
                         case R.id.Navigation_Tips:
-                            openFragment(TipsFragment.newInstance("", ""));
+                            openFragment(VideoFragment.newInstance());
                             return true;
                     }
                     return false;
