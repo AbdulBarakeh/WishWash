@@ -63,8 +63,6 @@ public class MessageAdapter extends RecyclerView.Adapter<BaseMessageViewHolder> 
     public void onBindViewHolder(@NonNull BaseMessageViewHolder holder , int position) {
         Message message = data.get(position);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//        DatabaseReference user1Reference = FirebaseDatabase.getInstance().getReference("Users").child(message.getReceiver());
-//        DatabaseReference user2Reference = FirebaseDatabase.getInstance().getReference("Users").child(message.getSender());
         if (currentUser.getUid().equals(message.getSender().getUserId())){
             holder = new OwnerMessageViewHolder(holder.itemView);
             holder.bind(message);
