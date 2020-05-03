@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import app.project.wishwash.Booking;
 import app.project.wishwash.R;
-import app.project.wishwash.booking.BookingContent.BookingItem;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link BookingItem} and makes a call to the
@@ -21,12 +21,17 @@ import app.project.wishwash.booking.BookingContent.BookingItem;
  */
 public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBookingRecyclerViewAdapter.ViewHolder> {
 
-    private final List<BookingItem> mValues;
+    private List<Booking> mValues;
     private final BookingFragment.OnListFragmentInteractionListener mListener;
 
-    public MyBookingRecyclerViewAdapter(List<BookingItem> items , BookingFragment.OnListFragmentInteractionListener listener) {
+    public MyBookingRecyclerViewAdapter(List<Booking> items , BookingFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        notifyDataSetChanged();
+    }
+    public void updateBooking(List<Booking> listOfBookings) {
+        mValues = listOfBookings;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -39,11 +44,11 @@ public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBooking
     @Override
     public void onBindViewHolder(final ViewHolder holder , final int position) {
 //        holder.mItem = mValues.get(position);
-        holder.name.setText(mValues.get(position).name);
-        holder.date.setText(mValues.get(position).date);
-        holder.start_time.setText(mValues.get(position).startTime);
-        holder.stop_time.setText(mValues.get(position).stopTime);
-        holder.washing_machine.setText(mValues.get(position).washingMachine);
+        holder.name.setText(mValues.get(position).getUser().getUserName());
+        holder.date.setText(mValues.get(position).getDateDayOfMonth() + "/" + mValues.get(position).getDateMonth() + "/" + mValues.get(position).getDateYear());
+        holder.start_time.setText(mValues.get(position).getDateHour());
+        holder.stop_time.setText(String.valueOf(mValues.get(position).getDateHour()+2));
+        holder.washing_machine.setText(mValues.get(position).getWashingMachine().getName());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +69,8 @@ public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBooking
     public int getItemCount() {
         return mValues.size();
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

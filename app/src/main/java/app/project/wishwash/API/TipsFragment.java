@@ -1,4 +1,4 @@
-package app.project.wishwash.booking;
+package app.project.wishwash.API;
 
 import android.os.Bundle;
 
@@ -10,8 +10,7 @@ import android.view.ViewGroup;
 
 import app.project.wishwash.R;
 
-
-public class BookingsFragment extends Fragment {
+public class TipsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -21,7 +20,7 @@ public class BookingsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public BookingsFragment() {
+    public TipsFragment() {
         // Required empty public constructor
     }
 
@@ -31,11 +30,11 @@ public class BookingsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BookingsFragment.
+     * @return A new instance of fragment TipsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BookingsFragment newInstance(String param1, String param2) {
-        BookingsFragment fragment = new BookingsFragment();
+    public static TipsFragment newInstance(String param1, String param2) {
+        TipsFragment fragment = new TipsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -56,6 +55,6 @@ public class BookingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookings, container, false);
+        return inflater.inflate(R.layout.fragment_tips, container, false);
     }
 }

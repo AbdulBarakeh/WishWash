@@ -1,7 +1,6 @@
 package app.project.wishwash.chat.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,9 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.project.wishwash.R;
-import app.project.wishwash.chat.ChatShellActivity;
-import app.project.wishwash.chat.activities.ChatActivity;
-import app.project.wishwash.chat.activities.UserListActivity;
 import app.project.wishwash.chat.adaptors.UserAdapter;
 import app.project.wishwash.chat.models.User;
 

@@ -1,6 +1,5 @@
 package app.project.wishwash.calender;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,14 +25,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import app.project.wishwash.Booking;
 import app.project.wishwash.R;
-import app.project.wishwash.booking.BookingContent;
 import app.project.wishwash.booking.BookingFragment;
 import app.project.wishwash.booking.NewBookingFragment;
 import app.project.wishwash.chat.ChatFragment;
 import app.project.wishwash.chat.fragments.UserListFragment;
 import app.project.wishwash.chat.models.User;
-import app.project.wishwash.tips.TipsFragment;
+import app.project.wishwash.API.TipsFragment;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarFragment.CalendarFragmentListener, BookingFragment.OnListFragmentInteractionListener, UserListFragment.UserListFragmentListener {
 
@@ -93,7 +92,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
                             openFragment(CalendarFragment.newInstance("", ""));
                             return true;
                         case R.id.Navigation_Bookings:
-                            openFragment(BookingFragment.newInstance(1));
+                            openFragment(BookingFragment.newInstance());
                             return true;
                         case R.id.Navigation_Chat:
                             openFragment(UserListFragment.newInstance());
@@ -119,10 +118,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         openFragment(NewBookingFragment.newInstance(c.YEAR, c.MONTH, c.DAY_OF_MONTH));
     }
 
-    @Override
-    public void onListFragmentInteraction(BookingContent.BookingItem item) {
 
-    }
 
     @Override
     public void onUserSent(User user) {
@@ -157,5 +153,10 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    @Override
+    public void onListFragmentInteraction(Booking item) {
+
     }
 }
