@@ -11,7 +11,9 @@ public class User {
     private String department;
     private List<Booking> bookingList;
 
-    public User(){}
+    public User(){
+        this.bookingList = new ArrayList<>();
+    }
 
     public User(String email, String password) {
         this.userId = "";
