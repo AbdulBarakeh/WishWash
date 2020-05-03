@@ -128,7 +128,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     @Override
     public void onUserSent(User user) {
         //        chatFragment.getUser(user);
-        ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentById(R.id.chat_constraint);//Didn't accept R.layout.activity_chat
+//        ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentById(R.id.chat_constraint);//Didn't accept R.layout.activity_chat
 //        openFragment(ChatFragment.newInstance(user.getUserId(),user.getUserName()));
         newChatFragment = new ChatFragment();
         newChatFragment.getUser(user);

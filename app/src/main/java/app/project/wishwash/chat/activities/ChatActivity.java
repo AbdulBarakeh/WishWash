@@ -57,7 +57,6 @@ public class ChatActivity extends AppCompatActivity {
         final User owner = new User(firebaseUser.getUid(),firebaseUser.getDisplayName());
 //        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(guestId);
 
-
         messageRecyclerView = findViewById(R.id.chat_recyclerView);
         messageRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager messageLayoutManager = new LinearLayoutManager(this);

@@ -102,9 +102,6 @@ public class ChatFragment extends Fragment {
         Button sendButton = view.findViewById(R.id.send_btn);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-//        getFromUser = getIntent();
-//        final String guestId = getFromUser.getStringExtra("userId");
-//        String guestName = getFromUser.getStringExtra("username");
         final User guest = new User(guestID,guestName);
         final User owner = new User(firebaseUser.getUid(),firebaseUser.getDisplayName());
 //        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(guestId);
@@ -169,7 +166,7 @@ public class ChatFragment extends Fragment {
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                data.clear();
+                data.clear();
                 for (DataSnapshot snap : dataSnapshot.getChildren()){
                     Message currentMessage = snap.getValue(Message.class);
                     if (currentMessage.getReceiver().getUserId().equals(message.getReceiver().getUserId()) && //TODO: FIX THIS BS
