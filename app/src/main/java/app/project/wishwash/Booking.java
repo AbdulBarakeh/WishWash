@@ -7,7 +7,6 @@ public class Booking {
     int dateMonth;
     int dateDayOfMonth;
     String dateHour;
-
     User user;
     WashingMachine washingMachine;
 
