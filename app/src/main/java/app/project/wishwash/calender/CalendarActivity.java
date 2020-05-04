@@ -22,6 +22,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import app.project.wishwash.API.VideoFragment;
@@ -29,10 +30,9 @@ import app.project.wishwash.Booking;
 import app.project.wishwash.R;
 import app.project.wishwash.booking.BookingFragment;
 import app.project.wishwash.booking.NewBookingFragment;
-import app.project.wishwash.chat.ChatFragment;
+import app.project.wishwash.chat.fragments.ChatFragment;
 import app.project.wishwash.chat.fragments.UserListFragment;
 import app.project.wishwash.chat.models.User;
-import app.project.wishwash.API.TipsFragment;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarFragment.CalendarFragmentListener, BookingFragment.OnListFragmentInteractionListener, UserListFragment.UserListFragmentListener {
 
@@ -89,7 +89,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.Navigation_Calendar:
-                            openFragment(CalendarFragment.newInstance("", ""));
+                            openFragment(CalendarFragment.newInstance("" , ""));
                             return true;
                         case R.id.Navigation_Bookings:
                             openFragment(BookingFragment.newInstance());
@@ -108,9 +108,10 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     public void openFragment(Fragment fragment) {
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.FrameLayout_Calendar, fragment);
-        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
     // To communicate from Fragment to Fragment through Activity
     @Override
@@ -118,16 +119,12 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         openFragment(NewBookingFragment.newInstance(c.YEAR, c.MONTH, c.DAY_OF_MONTH));
     }
 
-
-
     @Override
     public void onUserSent(User user) {
-        //        chatFragment.getUser(user);
-//        ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentById(R.id.chat_constraint);//Didn't accept R.layout.activity_chat
-//        openFragment(ChatFragment.newInstance(user.getUserId(),user.getUserName()));
+
         newChatFragment = new ChatFragment();
-        newChatFragment.getUser(user);
-        newChatFragment.newInstance(user.getUserId(),user.getUserName());
+        newChatFragment.setUser(user);
+//        newChatFragment.newInstance(user.getUserId(),user.getUserName());
         openFragment(newChatFragment);
     }
     private void addUserToDB(User user){
