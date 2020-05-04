@@ -5,6 +5,7 @@ import java.util.Calendar;
 import app.project.wishwash.chat.models.User;
 
 public class Booking {
+    String bookingID;
     int dateYear;
     int dateMonth;
     int dateDayOfMonth;
@@ -15,7 +16,8 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int dateYear, int dateMonth, int dateDayOfMonth, String dateHour, User user, WashingMachine washingMachine) {
+    public Booking(String bookingID, int dateYear, int dateMonth, int dateDayOfMonth, String dateHour, User user, WashingMachine washingMachine) {
+        this.bookingID = bookingID;
         this.dateYear = dateYear;
         this.dateMonth = dateMonth;
         this.dateDayOfMonth = dateDayOfMonth;
@@ -41,4 +43,12 @@ public class Booking {
 
     public WashingMachine getWashingMachine() { return washingMachine; }
     public void setWashingMachine(WashingMachine washingMachine) { this.washingMachine = washingMachine; }
+
+    public String getBookingID() {
+        return bookingID;
+    }
+
+    public void setBookingID(String bookingID) {
+        this.bookingID = bookingID;
+    }
 }

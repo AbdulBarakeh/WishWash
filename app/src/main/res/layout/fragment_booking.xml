@@ -100,34 +100,34 @@
         app:layout_constraintStart_toEndOf="@+id/start_time_label"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
-    <TextView
-        android:id="@+id/stop_time_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/colorBlack"
-        android:text="@string/stop_time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_time_label" />
+<!--    <TextView-->
+<!--        android:id="@+id/stop_time_label"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:textAppearance="?attr/textAppearanceListItem"-->
+<!--        android:textColor="@color/colorBlack"-->
+<!--        android:text="@string/stop_time"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/start_time_label" />-->
 
-    <TextView
-        android:id="@+id/stop_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/stop_time_label"
-        app:layout_constraintTop_toBottomOf="@+id/start_time" />
+<!--    <TextView-->
+<!--        android:id="@+id/stop_time"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:textAppearance="?attr/textAppearanceListItem"-->
+<!--        android:textColor="@color/colorBlack"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/guideline"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/stop_time_label"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/start_time" />-->
 
     <TextView
         android:id="@+id/washing_machine_label"
@@ -141,7 +141,7 @@
         android:text="@string/washingmachine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stop_time_label" />
+        app:layout_constraintTop_toBottomOf="@+id/start_time_label" />
 
     <TextView
         android:id="@+id/washing_machine"
@@ -158,7 +158,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/washing_machine_label"
-        app:layout_constraintTop_toBottomOf="@+id/stop_time" />
+        app:layout_constraintTop_toBottomOf="@+id/start_time" />
 
     <Button
         android:id="@+id/delete_btn"

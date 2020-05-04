@@ -9,13 +9,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import app.project.wishwash.Booking;
 import app.project.wishwash.R;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link BookingItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Booking} and makes a call to the
  * specified {@link BookingFragment.OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -47,12 +50,16 @@ public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBooking
         holder.name.setText(mValues.get(position).getUser().getUserName());
         holder.date.setText(mValues.get(position).getDateDayOfMonth() + "/" + mValues.get(position).getDateMonth() + "/" + mValues.get(position).getDateYear());
         holder.start_time.setText(mValues.get(position).getDateHour());
-        holder.stop_time.setText(String.valueOf(mValues.get(position).getDateHour()+2));
+//        holder.stop_time.setText(String.valueOf(mValues.get(position).getDateHour()+2));
         holder.washing_machine.setText(mValues.get(position).getWashingMachine().getName());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: Delete booking from FIREBASE
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("bookings");
+                String key = ref.child(mValues.get(position).getBookingID()).getKey();
+                ref.child(key).removeValue();
+//                ref.child("bookings").child(mValues.get(position).getBookingID()).removeValue();
                 mValues.remove(position);
                 notifyDataSetChanged();
             }
@@ -74,8 +81,8 @@ public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBooking
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView name_label, date_label, start_time_label, stop_time_label, washing_machine_label;
-        public final TextView name, date, start_time, stop_time, washing_machine;
+        public final TextView name_label, date_label, start_time_label, washing_machine_label;
+        public final TextView name, date, start_time, washing_machine;
         public final Button delete;
         public ViewHolder(View view) {
             super(view);
@@ -83,13 +90,13 @@ public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBooking
             name_label = (TextView) view.findViewById(R.id.user_name_label);
             date_label = (TextView) view.findViewById(R.id.date_label);
             start_time_label = (TextView) view.findViewById(R.id.start_time_label);
-            stop_time_label = (TextView) view.findViewById(R.id.stop_time_label);
+//            stop_time_label = (TextView) view.findViewById(R.id.stop_time_label);
             washing_machine_label = (TextView) view.findViewById(R.id.washing_machine_label);
 
             name = (TextView) view.findViewById(R.id.user_name);
             date = (TextView) view.findViewById(R.id.date);
             start_time = (TextView) view.findViewById(R.id.start_time);
-            stop_time= (TextView) view.findViewById(R.id.stop_time);
+//            stop_time= (TextView) view.findViewById(R.id.stop_time);
             washing_machine = (TextView) view.findViewById(R.id.washing_machine);
             delete = (Button) view.findViewById(R.id.delete_btn);
         }

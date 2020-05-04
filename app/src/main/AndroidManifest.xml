@@ -11,22 +11,16 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".API.VideoActivity" />
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".chat.activities.UserListActivity" />
+        <activity android:name=".chat.activities.ChatActivity" />
+        <activity android:name=".login.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".chat.activities.UserListActivity" />
-        <activity android:name=".chat.activities.ChatActivity" />
-
-<!--        <activity android:name=".login.SignInActivity">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
         <activity android:name=".calender.CalendarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

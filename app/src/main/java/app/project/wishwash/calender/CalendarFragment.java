@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import app.project.wishwash.Booking;
 import app.project.wishwash.R;
@@ -152,6 +153,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getBookingsFromFirebase();
+                booking.setBookingID(UUID.randomUUID().toString());
                 booking.setDateYear(dateYear);
                 booking.setDateMonth(dateMonth);
                 booking.setDateDayOfMonth(dateDayOfMonth);
@@ -192,6 +194,7 @@ public class CalendarFragment extends Fragment {
     private void setBookingInFirebase(Booking booking) {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> bookingMap = new HashMap<>();
+        bookingMap.put("bookingID",booking.getBookingID());
         bookingMap.put("dateYear", booking.getDateYear());
         bookingMap.put("dateMonth", booking.getDateMonth());
         bookingMap.put("dateDayOfMonth", booking.getDateDayOfMonth());
