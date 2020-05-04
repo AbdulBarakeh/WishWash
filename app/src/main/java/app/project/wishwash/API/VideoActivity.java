@@ -25,7 +25,8 @@ public class VideoActivity extends YouTubeBaseActivity {
     private YouTubePlayer.OnInitializedListener onInitializedListener;
     private String VIDEO_URL = "hc5h5pT4sVA";
 
-    private final String YOUTUBE_API_KEY = "AIzaSyCUQ57wV7kkQZOKKootla_jkTwJmgTSnwE";
+//    private final String YOUTUBE_API_KEY = "AIzaSyCUQ57wV7kkQZOKKootla_jkTwJmgTSnwE";
+    private final String YOUTUBE_API_KEY = "AIzaSyBBD-bfV06com_AUtQpU0x8tf-j8S1IkKg";
     private ArrayList<Video> videoList;
 
     private YouTubePlayer youTubePlayer;

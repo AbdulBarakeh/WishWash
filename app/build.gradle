@@ -56,4 +56,5 @@ dependencies {
 
     //Joda-Time:
     implementation 'joda-time:joda-time:2.9.4'
+    implementation files('libs\\YouTubeAndroidPlayerApi.jar')
 }

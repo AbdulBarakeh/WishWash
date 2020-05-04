@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
@@ -56,13 +56,14 @@ public class VideoFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+//     * @param param1 Parameter 1.
+//     * @param param2 Parameter 2.
      * @return A new instance of fragment VideoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VideoFragment newInstance() {
-        VideoFragment fragment = new VideoFragment();
+    public static Fragment newInstance() {
+        Fragment fragment = new Fragment();
+
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1 , param1);
 //        args.putString(ARG_PARAM2 , param2);
@@ -73,16 +74,18 @@ public class VideoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState) {
 //        TextView textView = new TextView(getActivity());
 //        textView.setText(R.string.hello_blank_fragment);
+        YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+        youTubePlayerFragment.initialize(YOUTUBE_API_KEY, onInitializedListener);
         View view = inflater.inflate(R.layout.activity_video, container, false);
         Context context = view.getContext();
         youTubePlayerView = view.findViewById(R.id.youtubePlayer);
