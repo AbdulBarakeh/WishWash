@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "app.project.wishwash"
-        minSdkVersion 16
+        minSdkVersion 17 //16 might be required but 17 is needed to make the API work
         targetSdkVersion 29
         multiDexEnabled true
         versionCode 1
@@ -56,5 +56,7 @@ dependencies {
 
     //Joda-Time:
     implementation 'joda-time:joda-time:2.9.4'
-    implementation files('libs\\YouTubeAndroidPlayerApi.jar')
+//    implementation files('libs\\YouTubeAndroidPlayerApi.jar')
+    //SRC: https://pierfrancescosoffritti.github.io/android-youtube-player/
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 }

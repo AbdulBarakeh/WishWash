@@ -38,7 +38,6 @@ public class VideoActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_video);
 
         youTubePlayerView = findViewById(R.id.youtubePlayer);
-        playVideoBtn = findViewById(R.id.playVideoBtn);
         videoRecyclerView = findViewById(R.id.recyclerView);
         //videoRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

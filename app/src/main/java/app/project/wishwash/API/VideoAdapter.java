@@ -9,15 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.project.wishwash.R;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
 
-    private ArrayList<Video> videoList;
+    private List<Video> videoList;
     private OnItemClickListener itemClickListener;
 
-    public VideoAdapter(ArrayList<Video> videoList) {
+    public VideoAdapter(List<Video> videoList) {
         this.videoList = videoList;
         notifyDataSetChanged();
     }
