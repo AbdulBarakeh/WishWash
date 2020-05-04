@@ -26,12 +26,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import app.project.wishwash.R;
+import app.project.wishwash.calender.CalendarActivity;
 import app.project.wishwash.chat.models.User;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button signInBtn;
-
+    Intent GoToCalender;
     private static final int RC_SIGN_IN = 1708;
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -71,11 +72,12 @@ public class LoginActivity extends AppCompatActivity {
                             addUserToDB(newUser);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+                GoToCalender = new Intent(LoginActivity.this, CalendarActivity.class);
+                startActivity(GoToCalender);
             } else {
                 Log.d(TAG, response.getError().getMessage());
             }
