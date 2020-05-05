@@ -8,6 +8,7 @@
     <string name="email_hint">Enter your email here</string>
     <string name="signup">Sign up</string>
     <string name="signin">Sign in</string>
+    <string name="signup_name_hint">Enter your name</string>
     <string name="password">Password</string>
     <string name="new_password">New password</string>
     <string name="password_hint">Enter your password here</string>
@@ -46,5 +47,23 @@
         <item>WM1</item>
         <item>WM2</item>
         <item>WM3</item>
+    </string-array>
+
+    <string-array name="video_title">
+        <item>Washing made easy</item>
+        <item>Best washing tips</item>
+        <item>How to do laundry</item>
+        <item>How to hand-wash</item>
+        <item>Make clothes white</item>
+        <item>Laundry routine</item>
+    </string-array>
+
+    <string-array name="video_link">
+        <item>9Y2RVE8WsWI</item>
+        <item>s6_sJbSLEe0</item>
+        <item>4QxmleZeu9s</item>
+        <item>PERlrqmj6Cw</item>
+        <item>ygxbTbxBUCg</item>
+        <item>rysvSyuBymE</item>
     </string-array>
 </resources>

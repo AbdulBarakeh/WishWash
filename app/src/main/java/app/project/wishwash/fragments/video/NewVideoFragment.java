@@ -17,6 +17,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import app.project.wishwash.models.Video;
 import app.project.wishwash.adaptors.VideoAdapter;
@@ -26,7 +27,8 @@ import app.project.wishwash.R;
 public class NewVideoFragment extends Fragment {
     private RecyclerView videoRecyclerView;
     private VideoAdapter videoAdapter;
-    List<Video> videoList = new ArrayList<>();
+    private List<Video> videoList = new ArrayList<>();
+    private YouTubePlayer youTubePlayer;
 
     public NewVideoFragment() {
         // Required empty public constructor
@@ -48,23 +50,49 @@ public class NewVideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_video,container,false);
         Context context = view.getContext();
-        YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtubePlayer);
+
+        final YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtubePlayer);
+        videoRecyclerView = view.findViewById(R.id.recyclerView);
+
         getLifecycle().addObserver(youTubePlayerView);
+
+        populateVideoList();
 
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(YouTubePlayer youTubePlayer) {
                 super.onReady(youTubePlayer);
-                youTubePlayer.loadVideo("hc5h5pT4sVA",0);
+                NewVideoFragment.this.youTubePlayer = youTubePlayer;
+                Random random = new Random();
+                int randomInt = random.nextInt(videoList.size());
+                youTubePlayer.loadVideo(videoList.get(randomInt).getLink(), 0);
             }
         });
 
-        videoRecyclerView = view.findViewById(R.id.recyclerView);
         videoRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         videoRecyclerView.setLayoutManager(layoutManager);
         videoAdapter = new VideoAdapter(videoList);
         videoRecyclerView.setAdapter(videoAdapter);
+
+        videoAdapter.setOnItemClickListener(new VideoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) throws InterruptedException {
+
+                youTubePlayer.loadVideo(videoList.get(position).getLink(), 0);
+            }
+        });
+
         return view;
+    }
+
+    private void populateVideoList() {
+        String[] titles = getResources().getStringArray(R.array.video_title);
+        String[] links = getResources().getStringArray(R.array.video_link);
+
+        for(int i = 0 ; i < titles.length ; i++){
+            Video video = new Video(titles[i], links[i]);
+            videoList.add(video);
+        }
     }
 }
