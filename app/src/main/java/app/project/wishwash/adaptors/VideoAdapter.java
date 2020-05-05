@@ -48,7 +48,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
     }
 
     public interface OnItemClickListener{
-        void onItemClick(int position);
+        void onItemClick(int position) throws InterruptedException;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -70,7 +70,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
                     if (listener != null){
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
+                            try {
+                                listener.onItemClick(position);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
