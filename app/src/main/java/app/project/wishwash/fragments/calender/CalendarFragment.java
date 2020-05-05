@@ -189,7 +189,7 @@ public class CalendarFragment extends Fragment {
         return v;
     }
 
-    private void setBookingInFirebase(Booking booking) {
+    private void setBookingInFirebase(Booking booking) {//TODO: You can book the same twice, fix it
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> bookingMap = new HashMap<>();
         bookingMap.put("bookingID",booking.getBookingID());
