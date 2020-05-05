@@ -1,7 +1,12 @@
 package app.project.wishwash.activities;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -34,9 +39,10 @@ import app.project.wishwash.fragments.booking.BookingFragment;
 import app.project.wishwash.fragments.chat.ChatFragment;
 import app.project.wishwash.fragments.chat.UserListFragment;
 import app.project.wishwash.models.User;
+import app.project.wishwash.service.WishWashService;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarFragment.CalendarFragmentListener, BookingFragment.OnListFragmentInteractionListener, UserListFragment.UserListFragmentListener {
-
+    private Intent service;
     private BottomNavigationView bottomNavigationView;
     private Toolbar actionBar;
     private final String TAG = "CalendarActivity";
@@ -50,7 +56,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate called");
         setContentView(R.layout.activity_calendar);
-
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         //placed at the end of the function to ensure that the object has time to update before being accessed
         validateUserExistence(currentUser);
@@ -64,6 +69,13 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         setSupportActionBar(actionBar);
 
         initCalendarFragment();
+        initializeService();
+    }
+
+    private void initializeService() {
+        service = new Intent(this, WishWashService.class);
+        startService(service);
+        bindService(service, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -156,4 +168,15 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     public void onListFragmentInteraction(Booking item) {
 
     }
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name , IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 }
