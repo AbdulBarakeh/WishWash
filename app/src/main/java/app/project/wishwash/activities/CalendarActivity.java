@@ -69,14 +69,10 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         setSupportActionBar(actionBar);
 
         initCalendarFragment();
-        initializeService();
-    }
-
-    private void initializeService() {
         service = new Intent(this, WishWashService.class);
         startService(service);
-        bindService(service, serviceConnection, Context.BIND_AUTO_CREATE);
     }
+
 
     @Override
     protected void onStart() {
@@ -168,15 +164,15 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     public void onListFragmentInteraction(Booking item) {
 
     }
-    ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name , IBinder service) {
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
+//    ServiceConnection serviceConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name , IBinder service) {
+//
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//
+//        }
+//    };
 }

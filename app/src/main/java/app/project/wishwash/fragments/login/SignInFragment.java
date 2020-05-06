@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ public class SignInFragment extends Fragment {
     // Declaring variables:
     private EditText editText_email, editText_password;
     private Button btn_back, btn_signin;
+    private Button abdul_btn;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -53,6 +55,22 @@ public class SignInFragment extends Fragment {
         editText_password = v.findViewById(R.id.EditText_signinFragment_password);
         btn_back = v.findViewById(R.id.Button_signinFragment_back);
         btn_signin = v.findViewById(R.id.Button_signinFragment_signin);
+
+        abdul_btn = v.findViewById(R.id.abdul_login);
+        abdul_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth abdulAuth = FirebaseAuth.getInstance();
+                abdulAuth.signInWithEmailAndPassword("abdul@mail.com","Abdul123!").addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(getContext(), "Welcome Abdul" , Toast.LENGTH_SHORT).show();
+                        Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
+                        startActivity(toCalendarActivityIntent);
+                    }
+                });
+            }
+        });
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -110,3 +128,4 @@ public class SignInFragment extends Fragment {
         return v;
         }
     }
+

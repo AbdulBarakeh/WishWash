@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,10 +19,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.security.auth.callback.Callback;
 
 import app.project.wishwash.fragments.booking.BookingFragment;
 import app.project.wishwash.models.Booking;
 import app.project.wishwash.R;
+import app.project.wishwash.patterns.ICommand;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Booking} and makes a call to the
@@ -31,9 +39,12 @@ import app.project.wishwash.R;
 public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBookingRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "MyBookingRecyclerViewAd";
     private String key;
+    String keyStringValue;
     private String value;
     private List<Booking> mValues;
     private final BookingFragment.OnListFragmentInteractionListener mListener;
+    public ExecutorService executor = Executors.newSingleThreadExecutor();
+
 
     public MyBookingRecyclerViewAdapter(List<Booking> items , BookingFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -65,42 +76,50 @@ public class MyBookingRecyclerViewAdapter extends RecyclerView.Adapter<MyBooking
             @Override
             public void onClick(View v) {
                 //TODO: Delete booking from FIREBASE WIP
-                FindEntry(mValues.get(position).getBookingID());//sets the key field
-                value = mValues.get(position).getBookingID();
-                mValues.remove(position);
-                DeleteEntry(value);
+                class Handler implements ICommand{
+
+                    @Override
+                    public void Handle(Object data) {
+                        DeleteEntry(value, key);
+                        mValues.remove(position);
+                    }
+                }
+                FindEntry(mValues.get(position).getBookingID(), new Handler());//sets the key field
+            }
+        });
+    }
+
+    private void DeleteEntry(String value, String key) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("bookings");
+        ref.child(key).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
                 notifyDataSetChanged();
             }
         });
     }
 
-    private void DeleteEntry(String value) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("bookings");
-        ref.child(key).removeValue();
-    }
-
-    private void FindEntry(final String id) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("bookings");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snap : dataSnapshot.getChildren()){
-                    Booking currentBooking = snap.getValue(Booking.class);
-                    if (currentBooking.getBookingID().equals(id)){
-//                        FirebaseDatabase.getInstance().getReference("bookings").child(snap.getKey()).setValue(null);
-                        Log.d(TAG , "onDataChange: " +currentBooking.getBookingID() +" = " + id);
-                        key = snap.getKey();
-                        break;
-                    }
+    private void FindEntry(final String id, final ICommand handler) {
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("bookings");
+    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                Booking currentBooking = snap.getValue(Booking.class);
+                if (currentBooking.getBookingID().equals(id)) {
+                    Log.d(TAG , "onDataChange: " + currentBooking.getBookingID() + " = " + id);
+                    key = snap.getKey();
+                    handler.Handle(null);
+                    return;
                 }
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
+        }
+    });
     }
 
     @Override
