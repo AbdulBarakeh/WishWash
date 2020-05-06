@@ -56,21 +56,21 @@ public class SignInFragment extends Fragment {
         btn_back = v.findViewById(R.id.Button_signinFragment_back);
         btn_signin = v.findViewById(R.id.Button_signinFragment_signin);
 
-        abdul_btn = v.findViewById(R.id.abdul_login);
-        abdul_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth abdulAuth = FirebaseAuth.getInstance();
-                abdulAuth.signInWithEmailAndPassword("abdul@mail.com","Abdul123!").addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(getContext(), "Welcome Abdul" , Toast.LENGTH_SHORT).show();
-                        Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
-                        startActivity(toCalendarActivityIntent);
-                    }
-                });
-            }
-        });
+//        abdul_btn = v.findViewById(R.id.abdul_login);
+//        abdul_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FirebaseAuth abdulAuth = FirebaseAuth.getInstance();
+//                abdulAuth.signInWithEmailAndPassword("abdul@mail.com","Abdul123!").addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                    @Override
+//                    public void onSuccess(AuthResult authResult) {
+//                        Toast.makeText(getContext(), "Welcome Abdul" , Toast.LENGTH_SHORT).show();
+//                        Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
+//                        startActivity(toCalendarActivityIntent);
+//                    }
+//                });
+//            }
+//        });
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
