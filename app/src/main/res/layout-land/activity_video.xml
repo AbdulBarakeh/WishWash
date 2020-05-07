@@ -5,7 +5,7 @@
     android:id="@+id/video_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".API.VideoActivity">
+    tools:context=".fragments.video.NewVideoFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:showFullScreenButton="true" />
+        app:showFullScreenButton="false" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

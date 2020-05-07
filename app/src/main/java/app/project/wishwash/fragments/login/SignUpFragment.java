@@ -16,15 +16,25 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 import app.project.wishwash.R;
 import app.project.wishwash.activities.CalendarActivity;
 import app.project.wishwash.activities.SignInActivity;
+import app.project.wishwash.models.User;
+import app.project.wishwash.patterns.ICommand;
 
 public class SignUpFragment extends Fragment {
     // Declaring variables:
@@ -82,16 +92,24 @@ public class SignUpFragment extends Fragment {
                 } else if (!password.equals(password_reentered)) {
                     Toast.makeText(getContext(), "Passwords do not match - try again!", Toast.LENGTH_SHORT).show();
                 } else
+
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getActivity(), "SignUp unsuccessful. Please try again", Toast.LENGTH_SHORT).show();
                             } else {
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(full_name).build();
-                                user.updateProfile(profileUpdates);
+                                user.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        validateUserExistence(user);
+                                    }
+                                });
                                 Toast.makeText(getActivity(), "You have successfully signed up to our service", Toast.LENGTH_SHORT).show();
                                 Log.d("SignUpFragment", "Successful sign up.");
                                 Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
@@ -106,5 +124,31 @@ public class SignUpFragment extends Fragment {
         return v;
     }
 
+
+    private void addUserToDB(User user){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> userMap = new HashMap<>();
+        userMap.put("isAdmin",user.isAdmin());
+        userMap.put("userId", user.getUserId());
+        userMap.put("userName", user.getUserName());
+        dbRef.child("users").push().setValue(userMap);
+    }
+    private void validateUserExistence(final FirebaseUser user){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String currentUserId = user.getUid();
+        dbRef.child("users").orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    User newUser = new User(user.getUid(), user.getDisplayName());
+                    addUserToDB(newUser);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
 
 }

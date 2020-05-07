@@ -58,7 +58,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         setContentView(R.layout.activity_calendar);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         //placed at the end of the function to ensure that the object has time to update before being accessed
-        validateUserExistence(currentUser);
+//        validateUserExistence(currentUser);
 
         calendarFragment = new CalendarFragment();
 
@@ -135,30 +135,30 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
 //        newChatFragment.newInstance(user.getUserId(),user.getUserName());
         openFragment(newChatFragment);
     }
-    private void addUserToDB(User user){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("userId", user.getUserId());
-        userMap.put("userName", user.getUserName());
-        dbRef.child("users").push().setValue(userMap);
-    }
-    private void validateUserExistence(final FirebaseUser user){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        String currentUserId = user.getUid();
-        dbRef.child("users").orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()){
-                    User newUser = new User(user.getUid(), user.getDisplayName());
-                    addUserToDB(newUser);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
+//    private void addUserToDB(User user){
+//        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+//        HashMap<String, Object> userMap = new HashMap<>();
+//        userMap.put("userId", user.getUserId());
+//        userMap.put("userName", user.getUserName());
+//        dbRef.child("users").push().setValue(userMap);
+//    }
+//    private void validateUserExistence(final FirebaseUser user){
+//        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+//        String currentUserId = user.getUid();
+//        dbRef.child("users").orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if(!dataSnapshot.exists()){
+//                    User newUser = new User(user.getUid(), user.getDisplayName());
+//                    addUserToDB(newUser);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+//    }
 
     @Override
     public void onListFragmentInteraction(Booking item) {
