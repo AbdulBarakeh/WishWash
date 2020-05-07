@@ -95,10 +95,18 @@ public class CalendarFragment extends Fragment {
         booking = new Booking();
         firebaseBookingList = new ArrayList<>();
 
-        DateTime dt = new DateTime();
-        dateYear = dt.getYear();
-        dateMonth = dt.getMonthOfYear();
-        dateDayOfMonth = dt.getDayOfMonth();
+        if(savedInstanceState!=null){
+            dateYear = savedInstanceState.getInt("dateYear");
+            dateMonth = savedInstanceState.getInt("dateMonth");
+            dateDayOfMonth = savedInstanceState.getInt("dateDayOfMonth");
+        }else{
+            DateTime dt = new DateTime();
+            dateYear = dt.getYear();
+            dateMonth = dt.getMonthOfYear();
+            dateDayOfMonth = dt.getDayOfMonth();
+        }
+
+
 
         calendarView = v.findViewById(R.id.CalendarView_CalendarFragment);
         btn_ok = v.findViewById(R.id.Button_calendarFragment_ok);
@@ -196,6 +204,14 @@ public class CalendarFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("dateYear", dateYear);
+        outState.putInt("dateMonth", dateMonth);
+        outState.putInt("dateDayOfMonth", dateDayOfMonth);
+        super.onSaveInstanceState(outState);
     }
 
     private void setBookingInFirebase(Booking booking) {//TODO: You can book the same twice, fix it
