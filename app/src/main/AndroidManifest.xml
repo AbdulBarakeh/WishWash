@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,12 +15,9 @@
         <service
             android:name=".service.WishWashService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
-        <activity android:name=".API.VideoActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".chat.activities.UserListActivity" />
-        <activity android:name=".chat.activities.ChatActivity" />
         <activity android:name=".activities.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

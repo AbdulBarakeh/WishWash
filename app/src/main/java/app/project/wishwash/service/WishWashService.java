@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -26,15 +27,16 @@ import com.google.firebase.database.ValueEventListener;
 import app.project.wishwash.R;
 import app.project.wishwash.models.Message;
 
-import static app.project.wishwash.base.BaseApplication.CHANNEL_MESSAGE;
+import static app.project.wishwash.base.BaseApplication.SERVICE_CHANNEL;
 
 public class WishWashService extends Service {
     private IBinder binder = new serviceBinder();
     private static String MESSAGE_NOTIFICATION ="notificationMessage";
     private static final String TAG = "WishWashService";
     NotificationManager notificationManager;
-    Notification messageNotification;
+    NotificationCompat.Builder messageNotification;
     NotificationChannel notificationChannel;
+    Context context;
 
 
 
@@ -46,6 +48,7 @@ public class WishWashService extends Service {
     public void onCreate() {
         super.onCreate();
         NotifyOnMessageReceive();
+        context = this;
     }
 
 
@@ -58,13 +61,13 @@ public class WishWashService extends Service {
                     for (DataSnapshot snap : dataSnapshot.getChildren()){
                         Message currentMessage = snap.getValue(Message.class);
                         if (currentMessage.getReceiver().getUserId().equals(user.getUid()) ){
-                            messageNotification = new NotificationCompat.Builder(WishWashService.this,MESSAGE_NOTIFICATION)
+                            messageNotification = new NotificationCompat.Builder(context,SERVICE_CHANNEL)
                                     .setSmallIcon(R.drawable.guest_24dp)
                                     .setContentTitle("New Message!")
-                                    .setContentText(currentMessage.getSender().getUserName() +" sent you a message!")
-                                    .build();
-                            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            notificationManager.notify(666,messageNotification);
+                                    .setContentText(currentMessage.getSender().getUserName() +" sent you a message!");
+
+                                notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            notificationManager.notify(666,messageNotification.build());
                         }
                     }
                 }
