@@ -1,23 +1,15 @@
 package app.project.wishwash.service;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import java.util.concurrent.TimeUnit;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import app.project.wishwash.R;
 import app.project.wishwash.models.Message;
 
-import static app.project.wishwash.base.BaseApplication.SERVICE_CHANNEL;
+import static app.project.wishwash.base.BaseApplication.MESSAGE_CHANNEL;
 import static app.project.wishwash.base.BaseApplication.WELCOME_CHANNEL;
 
 public class WishWashService extends Service {
@@ -39,13 +31,11 @@ public class WishWashService extends Service {
     private static int WELCOME_NOTIFICATION = 667;
     private static final String TAG = "WishWashService";
     private Thread thread;
-//    private Context context = this;
     FirebaseUser firebaseUser;
     NotificationManager notificationManager;
     NotificationCompat.Builder messageNotification;
     NotificationCompat.Builder welcomeNotification;
     Context context;
-    Runnable notificationRunner;
 
 
     public WishWashService() {
@@ -71,8 +61,8 @@ public class WishWashService extends Service {
                     for (DataSnapshot snap : dataSnapshot.getChildren()){
                         Message currentMessage = snap.getValue(Message.class);
                         if (currentMessage.getReceiver().getUserId().equals(user.getUid()) ){
-                            messageNotification = new NotificationCompat.Builder(context,SERVICE_CHANNEL)
-                                    .setSmallIcon(R.drawable.guest_24dp)
+                            messageNotification = new NotificationCompat.Builder(context, MESSAGE_CHANNEL)
+                                    .setSmallIcon(R.drawable.app_icon)
                                     .setContentTitle("New Message!")
                                     .setContentText(currentMessage.getSender().getUserName() +" sent you a message!");
 
@@ -100,7 +90,7 @@ public void SendWelcomeNotification(){
             }
 
             welcomeNotification = new NotificationCompat.Builder(context, WELCOME_CHANNEL)
-                    .setSmallIcon(R.drawable.icon_calendar) // Change image
+                    .setSmallIcon(R.drawable.app_icon) // Change image
                     .setContentTitle(getString(R.string.welcome_notification_title) + " " + firebaseUser.getDisplayName() + "!")
                     .setContentText(getString(R.string.welcome_notification_content));
 
