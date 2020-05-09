@@ -27,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import app.project.wishwash.R;
@@ -41,8 +40,6 @@ public class ChatFragment extends Fragment {
     MessageAdapter messageAdapter;
     ArrayList<Message> data = new ArrayList<>();
     FirebaseUser firebaseUser;
-    DatabaseReference dbReference;
-//    Intent getFromUser;
     private String guestID;
     private String guestName;
 
@@ -51,11 +48,9 @@ public class ChatFragment extends Fragment {
         guestName = user.getUserName();
     }
 
-
     public ChatFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +64,7 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d(TAG , "onCreateView: I'm here");
-        View view = inflater.inflate(R.layout.activity_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat , container, false);
         final Context context = view.getContext();
 
         final EditText messageInput = view.findViewById(R.id.msg_input);
@@ -154,7 +149,5 @@ public class ChatFragment extends Fragment {
 
         dbRef.child("messages").push().setValue(map);
         messageAdapter.updateMessages(data);
-
-
     }
 }

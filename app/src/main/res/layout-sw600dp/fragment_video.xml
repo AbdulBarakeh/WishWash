@@ -5,7 +5,7 @@
     android:id="@+id/video_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.video.NewVideoFragment">
+    tools:context=".fragments.video.VideoFragment">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtubePlayer"

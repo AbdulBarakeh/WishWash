@@ -23,20 +23,20 @@ import app.project.wishwash.models.Video;
 import app.project.wishwash.adaptors.VideoAdapter;
 import app.project.wishwash.R;
 
-
-public class NewVideoFragment extends Fragment {
+//Inspiration source: https://pierfrancescosoffritti.github.io/android-youtube-player/ & https://github.com/PierfrancescoSoffritti/android-youtube-player#download
+// originally Google's Youtube API was intended to be used, but was not supported with never software updates, hence the use of the new API.
+public class VideoFragment extends Fragment {
     private RecyclerView videoRecyclerView;
     private VideoAdapter videoAdapter;
     private List<Video> videoList = new ArrayList<>();
     private YouTubePlayer youTubePlayer;
 
-    public NewVideoFragment() {
+    public VideoFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static NewVideoFragment newInstance() {
-        NewVideoFragment fragment = new NewVideoFragment();
+    public static VideoFragment newInstance() {
+        VideoFragment fragment = new VideoFragment();
         return fragment;
     }
 
@@ -48,7 +48,7 @@ public class NewVideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater , ViewGroup container ,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_video,container,false);
+        View view = inflater.inflate(R.layout.fragment_video,container,false);
         Context context = view.getContext();
 
         final YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtubePlayer);
@@ -62,7 +62,7 @@ public class NewVideoFragment extends Fragment {
             @Override
             public void onReady(YouTubePlayer youTubePlayer) {
                 super.onReady(youTubePlayer);
-                NewVideoFragment.this.youTubePlayer = youTubePlayer;
+                VideoFragment.this.youTubePlayer = youTubePlayer;
                 Random random = new Random();
                 int randomInt = random.nextInt(videoList.size());
                 youTubePlayer.loadVideo(videoList.get(randomInt).getLink(), 0);

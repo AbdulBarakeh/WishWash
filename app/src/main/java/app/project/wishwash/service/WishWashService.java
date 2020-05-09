@@ -29,8 +29,6 @@ public class WishWashService extends Service {
     private IBinder binder = new serviceBinder();
     private static int MESSAGE_NOTIFICATION = 666;
     private static int WELCOME_NOTIFICATION = 667;
-    private static final String TAG = "WishWashService";
-    private Thread thread;
     FirebaseUser firebaseUser;
     NotificationManager notificationManager;
     NotificationCompat.Builder messageNotification;
@@ -50,7 +48,6 @@ public class WishWashService extends Service {
         NotifyOnMessageReceive();
 
     }
-
 
     private void NotifyOnMessageReceive() {
         DatabaseReference messageDBRef = FirebaseDatabase.getInstance().getReference("messages");
@@ -78,7 +75,7 @@ public class WishWashService extends Service {
                 }
             });
     }
-
+//Inspiration from this source: https://developer.android.com/guide/components/processes-and-threads
 public void SendWelcomeNotification(){
     new Thread(new Runnable() {
         @Override

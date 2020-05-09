@@ -43,7 +43,6 @@ public class Booking {
     public String getBookingID() {
         return bookingID;
     }
-
     public void setBookingID(String bookingID) {
         this.bookingID = bookingID;
     }

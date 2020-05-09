@@ -16,19 +16,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Calendar;
-
 import app.project.wishwash.R;
 import app.project.wishwash.fragments.booking.BookingFragment;
 import app.project.wishwash.fragments.calender.CalendarFragment;
 import app.project.wishwash.fragments.chat.ChatFragment;
 import app.project.wishwash.fragments.chat.UserListFragment;
-import app.project.wishwash.fragments.video.NewVideoFragment;
-import app.project.wishwash.models.Booking;
+import app.project.wishwash.fragments.video.VideoFragment;
 import app.project.wishwash.models.User;
 import app.project.wishwash.service.WishWashService;
 
-public class CalendarActivity extends AppCompatActivity implements CalendarFragment.CalendarFragmentListener, BookingFragment.OnListFragmentInteractionListener, UserListFragment.UserListFragmentListener {
+public class CalendarActivity extends AppCompatActivity implements UserListFragment.UserListFragmentListener {
     private Intent service;
     private BottomNavigationView bottomNavigationView;
     private Toolbar actionBar;
@@ -106,7 +103,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
                         return true;
 
                     case R.id.Navigation_Tips:
-                        currentFragment = NewVideoFragment.newInstance();
+                        currentFragment = VideoFragment.newInstance();
                         openFragment(currentFragment);
                         return true;
                 }
@@ -126,12 +123,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         transaction.commit();
     }
 
-
-    // To communicate from Fragment to Fragment through Activity
-    @Override
-    public void onDateChosen(Calendar c) {
-    }
-
     @Override
     public void onUserSent(User user) {
         newChatFragment = new ChatFragment();
@@ -140,8 +131,4 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         openFragment(newChatFragment);
     }
 
-    @Override
-    public void onListFragmentInteraction(Booking item) {
-
-    }
 }

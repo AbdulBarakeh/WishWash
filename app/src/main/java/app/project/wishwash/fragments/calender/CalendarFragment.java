@@ -39,7 +39,7 @@ import app.project.wishwash.models.WashingMachine;
 import app.project.wishwash.patterns.ICommand;
 
 public class CalendarFragment extends Fragment {
-    private CalendarFragmentListener listener;
+
     private CalendarView calendarView;
     private int dateYear, dateMonth, dateDayOfMonth;
     private String dateHour;
@@ -50,9 +50,6 @@ public class CalendarFragment extends Fragment {
     private User userWishWash;
     private List<Booking> firebaseBookingList;
 
-    public interface CalendarFragmentListener {
-        void onDateChosen(Calendar c);
-    }
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -105,8 +102,6 @@ public class CalendarFragment extends Fragment {
             dateMonth = dt.getMonthOfYear();
             dateDayOfMonth = dt.getDayOfMonth();
         }
-
-
 
         calendarView = v.findViewById(R.id.CalendarView_CalendarFragment);
         btn_ok = v.findViewById(R.id.Button_calendarFragment_ok);
@@ -251,21 +246,4 @@ public class CalendarFragment extends Fragment {
         });
     }
 
-    // When fragment is attached to an activity, check if interface is implemented.
-    // Inspiration from: https://www.youtube.com/watch?v=i22INe14JUc
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof CalendarFragmentListener) {
-            listener = (CalendarFragmentListener) context;
-        } else
-            throw new RuntimeException(context.toString() + " must implement CalendarFragmentListener");
-    }
-
-    // When fragment is detached from the activity.
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
 }

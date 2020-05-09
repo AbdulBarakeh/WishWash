@@ -30,12 +30,9 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-
         // Firebase - Create a password-based account - inspiration: https://firebase.google.com/docs/auth/android/password-auth
         firebaseAuth = FirebaseAuth.getInstance();
-
         initFirstFragment();
-
     }
 
     // From: https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
@@ -53,14 +50,6 @@ public class SignInActivity extends AppCompatActivity {
         matcher = pattern.matcher(password);
 
         return matcher.matches();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        //updateUI(currentUser);
     }
 
     // Inflates --- SignInSignUpFragment/fragment_sign_in_sign_up --- as the first fragment to be shown when app is started

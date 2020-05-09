@@ -124,7 +124,11 @@ public class SignUpFragment extends Fragment {
         return v;
     }
 
-
+/*
+* The following code validtes user existence and adds
+* the users name and ID to the database on first time sign up.
+* The reason is to enable finding them in the contacts list
+* */
     private void addUserToDB(User user){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> userMap = new HashMap<>();

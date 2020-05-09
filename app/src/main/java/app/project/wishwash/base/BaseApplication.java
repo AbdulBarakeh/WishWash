@@ -21,15 +21,15 @@ public class BaseApplication extends Application {
     private void createNotificationChannel(){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
 
-            NotificationChannel serviceChannel = new NotificationChannel(MESSAGE_CHANNEL ,"message_Channel", NotificationManager.IMPORTANCE_HIGH);
-            serviceChannel.setDescription("Hahahha");
+            NotificationChannel messageChannel = new NotificationChannel(MESSAGE_CHANNEL ,"message_Channel", NotificationManager.IMPORTANCE_HIGH);
+            messageChannel.setDescription("Channel to show message notifications");
 
             NotificationChannel welcomeChannel = new NotificationChannel(WELCOME_CHANNEL,"Welcome_Channel", NotificationManager.IMPORTANCE_HIGH);
             welcomeChannel.setDescription("welcome message notification");
 
 
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(serviceChannel);
+            notificationManager.createNotificationChannel(messageChannel);
             notificationManager.createNotificationChannel(welcomeChannel);
         }
         Log.d(TAG , "createNotificationChannel: notification channels created ");
