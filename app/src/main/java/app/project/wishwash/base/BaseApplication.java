@@ -14,6 +14,8 @@ public class BaseApplication extends Application {
     public static final String SERVICE_CHANNEL = "Service_Channel";
     private static final String TAG = "BaseApplication";
     NotificationManager notificationManager;
+    public static final String WELCOME_CHANNEL = "Welcome_Channel";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,9 +28,13 @@ public class BaseApplication extends Application {
             NotificationChannel serviceChannel = new NotificationChannel(SERVICE_CHANNEL,"Service_Channel", NotificationManager.IMPORTANCE_HIGH);
             serviceChannel.setDescription("Hahahha");
 
+            NotificationChannel welcomeChannel = new NotificationChannel(WELCOME_CHANNEL,"Welcome_Channel", NotificationManager.IMPORTANCE_HIGH);
+            welcomeChannel.setDescription("welcome message notification");
+
 
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(serviceChannel);
+            notificationManager.createNotificationChannel(welcomeChannel);
         }
         Log.d(TAG , "createNotificationChannel: notification channels created ");
     }
