@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">wishwash</string>
+    <string name="app_name">WishWash</string>
     <string name="write_message_hint">Write message</string>
     <string name="send_btn">SEND</string>
     <string name="wishwash">WishWash</string>
@@ -22,16 +22,32 @@
     <string name="tips">Tips</string>
     <string name="ok">OK</string>
     <string name="choose_date_calendar">Choose your date</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete">Delete</string>
     <string name="washingmachine">Washingmachine:</string>
     <string name="stop_time">Stop Time:</string>
     <string name="start_time">Time:</string>
     <string name="date">Date:</string>
     <string name="name">Name:</string>
+    <string name="welcome_notification_title">Welcome to Wish Wash, </string>
+    <string name="welcome_notification_content">Enjoy our app</string>
+    <string name="exit_text">Please click back-button again to exit app</string>
+    <string name="booking_already_reserved">Booking is already reserved by</string>
+    <string name="you_have_booked">You have booked</string>
+    <string name="from">from</string>
+    <string name="on">on</string>
+    <string name="successful_login">You have successfully logged in</string>
+    <string name="failed_login">Login failed. If you don\'t have a user, please sign up</string>
+    <string name="email_not_accepted">Email not accepted! Please try again</string>
+    <string name="password_not_accepted">Password not accepted! Please try again</string>
+    <string name="signin_unsuccessful">Sign in unsuccessful! Please try again</string>
+    <string name="signin_successful">Successful sign in</string>
+    <string name="password_8characters">Password needs to be at least 8 characters long!</string>
+    <string name="password_not_enough_complex">Password not enough complex!</string>
+    <string name="password_do_not_match">Passwords do not match! Please try again</string>
+    <string name="signup_unsuccessful">Sign up unsuccessful! Please try again</string>
+    <string name="signup_successful">You have successfully signed up to our service</string>
+
+
 
     <string-array name="times">
         <item>06–08</item>

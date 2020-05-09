@@ -74,25 +74,25 @@ public class SignUpFragment extends Fragment {
                 String password_reentered = editText_password_reentered.getText().toString();
 
                 if (!SignInActivity.isValidEmail(email)) {
-                    Toast.makeText(getContext(), "Email not accepted - try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.email_not_accepted, Toast.LENGTH_SHORT).show();
                 } else if (password.length()<8) {
-                    Toast.makeText(getContext(), "Password needs to be at least 8 characters long!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.password_8characters, Toast.LENGTH_SHORT).show();
                 } else if (!SignInActivity.isValidPassword(password)) {
-                    Toast.makeText(getContext(), "Password not enough complex!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.password_not_enough_complex, Toast.LENGTH_SHORT).show();
                 } else if (!password.equals(password_reentered)) {
-                    Toast.makeText(getContext(), "Passwords do not match - try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                 } else
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "SignUp unsuccessful. Please try again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), R.string.signup_unsuccessful, Toast.LENGTH_SHORT).show();
                             } else {
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(full_name).build();
                                 user.updateProfile(profileUpdates);
-                                Toast.makeText(getActivity(), "You have successfully signed up to our service", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), R.string.signup_successful, Toast.LENGTH_SHORT).show();
                                 Log.d("SignUpFragment", "Successful sign up.");
                                 Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
                                 startActivity(toCalendarActivityIntent);

@@ -59,10 +59,10 @@ public class SignInFragment extends Fragment {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    Toast.makeText(getContext(), "You have successfully logged in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.successful_login, Toast.LENGTH_SHORT).show();
 
                 } else
-                    Toast.makeText(getContext(), "Login failed. If you don't have a user, please sign up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.failed_login, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -85,17 +85,17 @@ public class SignInFragment extends Fragment {
                 String password = editText_password.getText().toString();
 
                 if (!SignInActivity.isValidEmail(email)) {
-                    Toast.makeText(getContext(), "Email not accepted! Try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.email_not_accepted, Toast.LENGTH_SHORT).show();
                 } else if (!SignInActivity.isValidPassword(password)) {
-                    Toast.makeText(getContext(), "Password not accepted! Try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.password_not_accepted, Toast.LENGTH_SHORT).show();
                 } else {
                         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "SignIn unsuccessful. Please try again", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), R.string.signin_unsuccessful, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getActivity(), "Successful sign in", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), R.string.signin_successful, Toast.LENGTH_SHORT).show();
                                     Log.d("SignInFragment", "Successful sign in.");
                                     Intent toCalendarActivityIntent = new Intent(getActivity(), CalendarActivity.class);
                                     startActivity(toCalendarActivityIntent);

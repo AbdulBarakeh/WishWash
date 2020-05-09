@@ -163,7 +163,7 @@ public class CalendarFragment extends Fragment {
                     for (Booking b : firebaseBookingList) {
                         if ((booking.getDateYear() == b.getDateYear() && booking.getDateMonth() == b.getDateMonth() &&
                                 booking.getDateDayOfMonth() == b.getDateDayOfMonth() && booking.getDateHour().equals(b.getDateHour()))) {
-                            Toast.makeText(getContext(), " Booking is already reserved by "
+                            Toast.makeText(getContext(), R.string.booking_already_reserved
                                     + b.getUser().getUserName(), Toast.LENGTH_LONG).show();
 
                             alreadyInDB = true;
@@ -176,9 +176,9 @@ public class CalendarFragment extends Fragment {
                         userBookingList.add(booking);
 //                        userWishWash.setBookingList(userBookingList);
 
-                        Toast.makeText(getContext(), "You have booked "
-                                + booking.getWashingMachine().getName() + " from " + dateHour +
-                                " on " + dateDayOfMonth + "/" + dateMonth + "/" + dateYear, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.you_have_booked + " "
+                                + booking.getWashingMachine().getName() + " " + R.string.from + " " + dateHour +
+                                " " + R.string.on + " " + dateDayOfMonth + "/" + dateMonth + "/" + dateYear, Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

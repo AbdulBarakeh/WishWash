@@ -139,6 +139,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
 //        newChatFragment.newInstance(user.getUserId(),user.getUserName());
         openFragment(newChatFragment);
     }
+
     private void addUserToDB(User user){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> userMap = new HashMap<>();
@@ -146,6 +147,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         userMap.put("userName", user.getUserName());
         dbRef.child("users").push().setValue(userMap);
     }
+
     private void validateUserExistence(final FirebaseUser user){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         String currentUserId = user.getUid();

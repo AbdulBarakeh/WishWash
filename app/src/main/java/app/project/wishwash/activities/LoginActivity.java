@@ -1,3 +1,4 @@
+/*
 package app.project.wishwash.activities;
 
 import androidx.annotation.NonNull;
@@ -90,3 +91,4 @@ public class LoginActivity extends AppCompatActivity {
         dbRef.child("users").push().setValue(userMap);
     }
 }
+*/
