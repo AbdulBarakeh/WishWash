@@ -85,6 +85,7 @@ public class BookingFragment extends Fragment {
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listOfBookings.clear();
                 for (DataSnapshot snap : dataSnapshot.getChildren()){
                     Booking currentBooking = snap.getValue(Booking.class);
                     if (currentBooking.getUser().getUserId().equals(user.getUid())){

@@ -12,20 +12,40 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.core.app.NotificationCompat;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import app.project.wishwash.R;
+import app.project.wishwash.models.Message;
+
+import static app.project.wishwash.base.BaseApplication.SERVICE_CHANNEL;
 
 public class WishWashService extends Service {
     private IBinder binder = new serviceBinder();
+    private static String MESSAGE_NOTIFICATION ="notificationMessage";
     private static final String TAG = "WishWashService";
     private Thread thread;
     private Context context = this;
     FirebaseUser firebaseUser;
+    NotificationManager notificationManager;
+    NotificationCompat.Builder messageNotification;
+    NotificationChannel notificationChannel;
+    Context context;
+
+
+
 
     public WishWashService() {
     }
@@ -36,6 +56,36 @@ public class WishWashService extends Service {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         thread = new Thread(new WelcomeRunnable());
         thread.start();
+        NotifyOnMessageReceive();
+        context = this;
+    }
+
+
+    private void NotifyOnMessageReceive() {
+        DatabaseReference messageDBRef = FirebaseDatabase.getInstance().getReference("messages");
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            messageDBRef.orderByChild("messageDate").limitToLast(1).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snap : dataSnapshot.getChildren()){
+                        Message currentMessage = snap.getValue(Message.class);
+                        if (currentMessage.getReceiver().getUserId().equals(user.getUid()) ){
+                            messageNotification = new NotificationCompat.Builder(context,SERVICE_CHANNEL)
+                                    .setSmallIcon(R.drawable.guest_24dp)
+                                    .setContentTitle("New Message!")
+                                    .setContentText(currentMessage.getSender().getUserName() +" sent you a message!");
+
+                                notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            notificationManager.notify(666,messageNotification.build());
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
     }
 
     @Override
@@ -45,20 +95,17 @@ public class WishWashService extends Service {
         return START_NOT_STICKY;
     }
 
-    /*
-     * BINDER
-     */
-    public class serviceBinder extends Binder {
-        public WishWashService getService() {
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
+    public class serviceBinder extends Binder{
+        public WishWashService getService(){
             return WishWashService.this;
         }
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.d(TAG, "onBind: bound!");
-        return binder;
-    }
 
 
     private class WelcomeRunnable implements Runnable {
@@ -158,3 +205,4 @@ public class WishWashService extends Service {
         }
     }*/
 }
+

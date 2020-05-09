@@ -38,7 +38,7 @@ public class ChatFragment extends Fragment {
     private static final String TAG = "ChatFragment";
     RecyclerView messageRecyclerView;
     MessageAdapter messageAdapter;
-    List<Message> data = new ArrayList<>();
+    ArrayList<Message> data = new ArrayList<>();
     FirebaseUser firebaseUser;
     DatabaseReference dbReference;
 //    Intent getFromUser;
@@ -104,7 +104,16 @@ public class ChatFragment extends Fragment {
         Button sendButton = view.findViewById(R.id.send_btn);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        final User guest = new User(guestID,guestName);
+        final User guest;
+        if(savedInstanceState!=null){
+            String newID = savedInstanceState.getString("guestId");
+            String newName = savedInstanceState.getString("guestName");
+            guest = new User(newID, newName);
+            data = savedInstanceState.getParcelableArrayList("messages");
+        }else{
+            guest = new User(guestID,guestName);
+        }
+
         final User owner = new User(firebaseUser.getUid(),firebaseUser.getDisplayName());
 //        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(guestId);
 
@@ -169,7 +178,16 @@ public class ChatFragment extends Fragment {
                 });
         return  view;
     }
-    public void SendMessage( Message message){
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("guestId", guestID);
+        outState.putString("guestName", guestName);
+        outState.putParcelableArrayList("messages", data);
+        super.onSaveInstanceState(outState);
+    }
+
+    public void SendMessage(Message message){
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String,Object> map = new HashMap<>();

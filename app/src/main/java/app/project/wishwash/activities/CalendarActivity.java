@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -48,6 +49,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     private final String TAG = "CalendarActivity";
     private FragmentTransaction transaction;
     private FragmentManager fragmentManager;
+    private Fragment currentFragment;
     private SharedPreferences sp;
     private CalendarFragment calendarFragment;
     private ChatFragment newChatFragment;
@@ -58,7 +60,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
         setContentView(R.layout.activity_calendar);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         //placed at the end of the function to ensure that the object has time to update before being accessed
-        validateUserExistence(currentUser);
+//        validateUserExistence(currentUser);
 
         calendarFragment = new CalendarFragment();
 
@@ -68,15 +70,26 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
 
         setSupportActionBar(actionBar);
 
-        initCalendarFragment();
+
+        fragmentManager = getSupportFragmentManager();
+
+
         initializeService();
+
+        if (savedInstanceState != null) {
+            currentFragment = fragmentManager.getFragment(savedInstanceState, "currentFragment");
+            openFragment(currentFragment);
+        }else{
+            currentFragment = initCalendarFragment();
+        }
     }
 
     private void initializeService() {
+
         service = new Intent(this, WishWashService.class);
         startService(service);
-        bindService(service, serviceConnection, Context.BIND_AUTO_CREATE);
     }
+
 
     @Override
     protected void onStart() {
@@ -88,11 +101,12 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
     }
 
     // Inflates --- CalendarFragment/fragment_calendar --- as the first fragment to be shown when app is started
-    private void initCalendarFragment() {
+    private Fragment initCalendarFragment() {
         Fragment fragment = new CalendarFragment();
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.FrameLayout_Calendar, fragment);
         transaction.commit();
+        return fragment;
     }
 
     // When BottomNavigationView item is clicked, inflate belonging fragment.
@@ -101,22 +115,36 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
+
                         case R.id.Navigation_Calendar:
-                            openFragment(CalendarFragment.newInstance("" , ""));
+                            currentFragment = CalendarFragment.newInstance("", "");
+                            openFragment(currentFragment);
                             return true;
+
                         case R.id.Navigation_Bookings:
-                            openFragment(BookingFragment.newInstance());
+                            currentFragment = BookingFragment.newInstance();
+                            openFragment(currentFragment);
                             return true;
+
                         case R.id.Navigation_Chat:
-                            openFragment(UserListFragment.newInstance());
+                            currentFragment = UserListFragment.newInstance();
+                            openFragment(currentFragment);
                             return true;
+
                         case R.id.Navigation_Tips:
-                            openFragment(NewVideoFragment.newInstance());
+                            currentFragment = NewVideoFragment.newInstance();
+                            openFragment(currentFragment);
                             return true;
                     }
                     return false;
                 }
             };
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        getSupportFragmentManager().putFragment(outState, "currentFragment", currentFragment);
+        super.onSaveInstanceState(outState);
+    }
 
     public void openFragment(Fragment fragment) {
         transaction = getSupportFragmentManager().beginTransaction();
@@ -133,43 +161,42 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
 
     @Override
     public void onUserSent(User user) {
-
         newChatFragment = new ChatFragment();
+        currentFragment = newChatFragment;
         newChatFragment.setUser(user);
 //        newChatFragment.newInstance(user.getUserId(),user.getUserName());
         openFragment(newChatFragment);
     }
-
-    private void addUserToDB(User user){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("userId", user.getUserId());
-        userMap.put("userName", user.getUserName());
-        dbRef.child("users").push().setValue(userMap);
-    }
-
-    private void validateUserExistence(final FirebaseUser user){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        String currentUserId = user.getUid();
-        dbRef.child("users").orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()){
-                    User newUser = new User(user.getUid(), user.getDisplayName());
-                    addUserToDB(newUser);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
+//    private void addUserToDB(User user){
+//        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+//        HashMap<String, Object> userMap = new HashMap<>();
+//        userMap.put("userId", user.getUserId());
+//        userMap.put("userName", user.getUserName());
+//        dbRef.child("users").push().setValue(userMap);
+//    }
+//    private void validateUserExistence(final FirebaseUser user){
+//        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+//        String currentUserId = user.getUid();
+//        dbRef.child("users").orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if(!dataSnapshot.exists()){
+//                    User newUser = new User(user.getUid(), user.getDisplayName());
+//                    addUserToDB(newUser);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+//    }
 
     @Override
     public void onListFragmentInteraction(Booking item) {
 
     }
+
     ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name , IBinder service) {
@@ -181,4 +208,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarFragm
 
         }
     };
+
+    public void SetCurrentFragment(Fragment currentFragment){ this.currentFragment = currentFragment; }
 }

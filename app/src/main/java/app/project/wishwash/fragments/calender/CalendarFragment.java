@@ -36,6 +36,7 @@ import app.project.wishwash.models.Booking;
 import app.project.wishwash.R;
 import app.project.wishwash.models.User;
 import app.project.wishwash.models.WashingMachine;
+import app.project.wishwash.patterns.ICommand;
 
 public class CalendarFragment extends Fragment {
     private CalendarFragmentListener listener;
@@ -94,10 +95,18 @@ public class CalendarFragment extends Fragment {
         booking = new Booking();
         firebaseBookingList = new ArrayList<>();
 
-        DateTime dt = new DateTime();
-        dateYear = dt.getYear();
-        dateMonth = dt.getMonthOfYear();
-        dateDayOfMonth = dt.getDayOfMonth();
+        if(savedInstanceState!=null){
+            dateYear = savedInstanceState.getInt("dateYear");
+            dateMonth = savedInstanceState.getInt("dateMonth");
+            dateDayOfMonth = savedInstanceState.getInt("dateDayOfMonth");
+        }else{
+            DateTime dt = new DateTime();
+            dateYear = dt.getYear();
+            dateMonth = dt.getMonthOfYear();
+            dateDayOfMonth = dt.getDayOfMonth();
+        }
+
+
 
         calendarView = v.findViewById(R.id.CalendarView_CalendarFragment);
         btn_ok = v.findViewById(R.id.Button_calendarFragment_ok);
@@ -150,43 +159,59 @@ public class CalendarFragment extends Fragment {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBookingsFromFirebase();
-                booking.setBookingID(UUID.randomUUID().toString());
-                booking.setDateYear(dateYear);
-                booking.setDateMonth(dateMonth);
-                booking.setDateDayOfMonth(dateDayOfMonth);
-                booking.setDateHour(dateHour);
-                booking.setUser(userWishWash);
-                boolean alreadyInDB = false;
+                class Handler implements ICommand{
 
-                try {
-                    for (Booking b : firebaseBookingList) {
-                        if ((booking.getDateYear() == b.getDateYear() && booking.getDateMonth() == b.getDateMonth() &&
-                                booking.getDateDayOfMonth() == b.getDateDayOfMonth() && booking.getDateHour().equals(b.getDateHour()))) {
-                            Toast.makeText(getContext(), R.string.booking_already_reserved
-                                    + b.getUser().getUserName(), Toast.LENGTH_LONG).show();
+                    @Override
+                    public void Handle(Object data) {
+                        List<Booking> listOfBookings = (List<Booking>) data;
+                        booking.setBookingID(UUID.randomUUID().toString());
+                        booking.setDateYear(dateYear);
+                        booking.setDateMonth(dateMonth);
+                        booking.setDateDayOfMonth(dateDayOfMonth);
+                        booking.setDateHour(dateHour);
+                        booking.setUser(userWishWash);
+                        boolean alreadyInDB = false;
 
-                            alreadyInDB = true;
-                        }
-                    }
+                        try {
+                            for (Booking b : listOfBookings) {
+                                if ((booking.getDateYear() == b.getDateYear() && booking.getDateMonth() == b.getDateMonth() &&
+                                        booking.getDateDayOfMonth() == b.getDateDayOfMonth() && booking.getDateHour().equals(b.getDateHour()))) {
+                                    Toast.makeText(getContext(), " Booking is already reserved by "
+                                            + b.getUser().getUserName(), Toast.LENGTH_LONG).show();
 
-                    if (!alreadyInDB) {
-                        setBookingInFirebase(booking);
-                        List<Booking> userBookingList = new ArrayList<>();
-                        userBookingList.add(booking);
+                                    alreadyInDB = true;
+                                }
+                            }
+
+                            if (!alreadyInDB) {
+                                setBookingInFirebase(booking);
+                                List<Booking> userBookingList = new ArrayList<>();
+                                userBookingList.add(booking);
 //                        userWishWash.setBookingList(userBookingList);
 
-                        Toast.makeText(getContext(), R.string.you_have_booked + " "
-                                + booking.getWashingMachine().getName() + " " + R.string.from + " " + dateHour +
-                                " " + R.string.on + " " + dateDayOfMonth + "/" + dateMonth + "/" + dateYear, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "You have booked "
+                                        + booking.getWashingMachine().getName() + " from " + dateHour +
+                                        " on " + dateDayOfMonth + "/" + dateMonth + "/" + dateYear, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+                getBookingsFromFirebase(new Handler());
+
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("dateYear", dateYear);
+        outState.putInt("dateMonth", dateMonth);
+        outState.putInt("dateDayOfMonth", dateDayOfMonth);
+        super.onSaveInstanceState(outState);
     }
 
     private void setBookingInFirebase(Booking booking) {//TODO: You can book the same twice, fix it
@@ -202,7 +227,7 @@ public class CalendarFragment extends Fragment {
         bookingRef.child("bookings").push().setValue(bookingMap);
     }
 
-    private void getBookingsFromFirebase() {
+    private void getBookingsFromFirebase(final ICommand handler) {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference("bookings");
 
         bookingRef.addValueEventListener(new ValueEventListener() {
@@ -216,6 +241,7 @@ public class CalendarFragment extends Fragment {
                 }
 
                 firebaseBookingList = bookings;
+                handler.Handle(firebaseBookingList);
             }
 
             @Override
