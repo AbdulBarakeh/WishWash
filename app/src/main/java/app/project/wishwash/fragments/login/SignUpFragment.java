@@ -83,6 +83,7 @@ public class SignUpFragment extends Fragment {
                 String password = editText_password.getText().toString();
                 String password_reentered = editText_password_reentered.getText().toString();
 
+                // Checking user information's using different requirement
                 if (!SignInActivity.isValidEmail(email)) {
                     Toast.makeText(getContext(), R.string.email_not_accepted, Toast.LENGTH_SHORT).show();
                 } else if (password.length()<8) {
@@ -117,10 +118,8 @@ public class SignUpFragment extends Fragment {
                             }
                         }
                     });
-
             }
         });
-
         return v;
     }
 
@@ -129,14 +128,8 @@ public class SignUpFragment extends Fragment {
 * the users name and ID to the database on first time sign up.
 * The reason is to enable finding them in the contacts list
 * */
-    private void addUserToDB(User user){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("isAdmin",user.isAdmin());
-        userMap.put("userId", user.getUserId());
-        userMap.put("userName", user.getUserName());
-        dbRef.child("users").push().setValue(userMap);
-    }
+
+    // Checking Firebase for existing user
     private void validateUserExistence(final FirebaseUser user){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         String currentUserId = user.getUid();
@@ -155,4 +148,13 @@ public class SignUpFragment extends Fragment {
         });
     }
 
+    // Add a new user to a DB, used in chat for sender and receiver.
+    private void addUserToDB(User user){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> userMap = new HashMap<>();
+        userMap.put("isAdmin",user.isAdmin());
+        userMap.put("userId", user.getUserId());
+        userMap.put("userName", user.getUserName());
+        dbRef.child("users").push().setValue(userMap);
+    }
 }

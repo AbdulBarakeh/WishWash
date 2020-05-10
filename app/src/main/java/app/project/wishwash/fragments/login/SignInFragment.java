@@ -83,6 +83,7 @@ public class SignInFragment extends Fragment {
                 String email = editText_email.getText().toString();
                 String password = editText_password.getText().toString();
 
+                // Validates user information's using Firebase DB
                 if (!SignInActivity.isValidEmail(email)) {
                     Toast.makeText(getContext(), R.string.email_not_accepted, Toast.LENGTH_SHORT).show();
                 } else if (!SignInActivity.isValidPassword(password)) {
