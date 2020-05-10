@@ -161,6 +161,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                    // Set chosen date to appropriate variables and check whether a booking with this information already exists in Firebase.
                         List<Booking> listOfBookings = firebaseBookingList;
                         booking.setBookingID(UUID.randomUUID().toString());
                         booking.setDateYear(dateYear);
@@ -225,6 +226,7 @@ public class CalendarFragment extends Fragment {
         bookingRef.child("bookings").push().setValue(bookingMap);
     }
 
+    // Get all bookings from Firebase
     private void getBookingsFromFirebase() {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference("bookings");
 
