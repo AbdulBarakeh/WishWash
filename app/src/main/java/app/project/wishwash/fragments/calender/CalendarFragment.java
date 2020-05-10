@@ -160,12 +160,8 @@ public class CalendarFragment extends Fragment {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                class Handler implements ICommand{
 
-                    // Set chosen date to appropriate variables and check whether a booking with this information already exists in Firebase.
-                    @Override
-                    public void Handle(Object data) {
-                        List<Booking> listOfBookings = (List<Booking>) data;
+                        List<Booking> listOfBookings = firebaseBookingList;
                         booking.setBookingID(UUID.randomUUID().toString());
                         booking.setDateYear(dateYear);
                         booking.setDateMonth(dateMonth);
@@ -191,7 +187,6 @@ public class CalendarFragment extends Fragment {
                                 setBookingInFirebase(booking);
                                 List<Booking> userBookingList = new ArrayList<>();
                                 userBookingList.add(booking);
-//                        userWishWash.setBookingList(userBookingList);
 
                                 Toast.makeText(getContext(), "You have booked "
                                         + booking.getWashingMachine().getName() + " from " + dateHour +
@@ -200,9 +195,7 @@ public class CalendarFragment extends Fragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }
-                }
-                getBookingsFromFirebase(new Handler());
+                getBookingsFromFirebase();
 
             }
         });
@@ -232,22 +225,19 @@ public class CalendarFragment extends Fragment {
         bookingRef.child("bookings").push().setValue(bookingMap);
     }
 
-    // Get all bookings from Firebase
-    private void getBookingsFromFirebase(final ICommand handler) {
+    private void getBookingsFromFirebase() {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference("bookings");
 
         bookingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Booking> bookings = new ArrayList<>();
+                firebaseBookingList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Booking currentBooking = snapshot.getValue(Booking.class);
-                    bookings.add(currentBooking);
+                    firebaseBookingList.add(currentBooking);
                 }
 
-                firebaseBookingList = bookings;
-                handler.Handle(firebaseBookingList);
             }
 
             @Override
