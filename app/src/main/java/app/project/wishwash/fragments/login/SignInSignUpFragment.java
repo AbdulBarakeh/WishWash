@@ -50,6 +50,7 @@ public class SignInSignUpFragment extends Fragment {
         return v;
     }
 
+    // Inflate fragment and add to backstack
     public void openFragment(Fragment fragment) {
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.FrameLayout_signinsignup, fragment);

@@ -94,6 +94,7 @@ public class SignUpFragment extends Fragment {
                     Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                 } else
 
+                    // Create user with email and password
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -101,7 +102,6 @@ public class SignUpFragment extends Fragment {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getActivity(), R.string.signup_unsuccessful, Toast.LENGTH_SHORT).show();
                             } else {
-
                                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(full_name).build();

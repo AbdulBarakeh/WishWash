@@ -119,6 +119,7 @@ public class CalendarActivity extends AppCompatActivity implements UserListFragm
         super.onSaveInstanceState(outState);
     }
 
+    // Inflate fragment without adding to backstack to avoid a lot of items on the backstack
     public void openFragment(Fragment fragment) {
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.FrameLayout_Calendar, fragment);

@@ -34,11 +34,13 @@ public class SignInActivity extends AppCompatActivity {
         initFirstFragment();
     }
 
+    // Check whether entered email is valid or not
     // From: https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
     public static boolean isValidEmail(CharSequence email) {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
+    // Check whether entered password is valid or not. Password must include one number, one big letter and one special character
     // From: https://stackoverflow.com/questions/36574183/how-to-validate-password-field-in-android
     public static boolean isValidPassword(final String password) {
         Pattern pattern;

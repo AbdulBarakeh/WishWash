@@ -55,6 +55,7 @@ public class SignInFragment extends Fragment {
         btn_back = v.findViewById(R.id.Button_signinFragment_back);
         btn_signin = v.findViewById(R.id.Button_signinFragment_signin);
 
+        // Check whether a user exists in Firebase on login and send appropriate toast message
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

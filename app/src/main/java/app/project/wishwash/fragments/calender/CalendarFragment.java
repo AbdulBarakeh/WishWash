@@ -92,6 +92,7 @@ public class CalendarFragment extends Fragment {
         booking = new Booking();
         firebaseBookingList = new ArrayList<>();
 
+        // Save data on device rotation
         if(savedInstanceState!=null){
             dateYear = savedInstanceState.getInt("dateYear");
             dateMonth = savedInstanceState.getInt("dateMonth");
@@ -108,8 +109,10 @@ public class CalendarFragment extends Fragment {
         spinner_times = v.findViewById(R.id.Spinner_CalendarFragment_Times);
         spinner_washingMachines = v.findViewById(R.id.Spinner_CalendarFragment_WashingMachines);
 
+        // Set date to today (current day)
         calendarView.setDate(System.currentTimeMillis(), false, true);
 
+        // Set new date if date is changed in calendarView.
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -119,6 +122,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        // Set dropdown menu for time intervals to wash
         ArrayAdapter<CharSequence> spinnerTimesAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.times, R.layout.spinner);
         spinnerTimesAdapter.setDropDownViewResource(R.layout.spinner);
         spinner_times.setAdapter(spinnerTimesAdapter);
@@ -134,6 +138,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        // Set dropdown menu for available washing machines to choose from
         ArrayAdapter<CharSequence> spinnerWMAdapter = ArrayAdapter.createFromResource(getContext(), R.array.washing_machines, R.layout.spinner);
         spinnerWMAdapter.setDropDownViewResource(R.layout.spinner);
         spinner_washingMachines.setAdapter(spinnerWMAdapter);
@@ -151,11 +156,13 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        // On OK-button click
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 class Handler implements ICommand{
 
+                    // Set chosen date to appropriate variables and check whether a booking with this information already exists in Firebase.
                     @Override
                     public void Handle(Object data) {
                         List<Booking> listOfBookings = (List<Booking>) data;
@@ -169,6 +176,7 @@ public class CalendarFragment extends Fragment {
 
                         try {
                             for (Booking b : listOfBookings) {
+                                // If already in Firebase, booking is not allowed and toast message is sent to user
                                 if ((booking.getDateYear() == b.getDateYear() && booking.getDateMonth() == b.getDateMonth() &&
                                         booking.getDateDayOfMonth() == b.getDateDayOfMonth() && booking.getDateHour().equals(b.getDateHour()))) {
                                     Toast.makeText(getContext(), " Booking is already reserved by "
@@ -178,6 +186,7 @@ public class CalendarFragment extends Fragment {
                                 }
                             }
 
+                            // Book chosen date and washing machine
                             if (!alreadyInDB) {
                                 setBookingInFirebase(booking);
                                 List<Booking> userBookingList = new ArrayList<>();
@@ -209,7 +218,8 @@ public class CalendarFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    private void setBookingInFirebase(Booking booking) {//TODO: You can book the same twice, fix it
+    // Book chosen date and washing machine
+    private void setBookingInFirebase(Booking booking) {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> bookingMap = new HashMap<>();
         bookingMap.put("bookingID",booking.getBookingID());
@@ -222,6 +232,7 @@ public class CalendarFragment extends Fragment {
         bookingRef.child("bookings").push().setValue(bookingMap);
     }
 
+    // Get all bookings from Firebase
     private void getBookingsFromFirebase(final ICommand handler) {
         DatabaseReference bookingRef = FirebaseDatabase.getInstance().getReference("bookings");
 
