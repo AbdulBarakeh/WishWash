@@ -49,6 +49,7 @@ public class CalendarActivity extends AppCompatActivity implements UserListFragm
         fragmentManager = getSupportFragmentManager();
         initializeService();
 
+        // Loads active fragment when app is restarted
         if (savedInstanceState != null) {
             currentFragment = fragmentManager.getFragment(savedInstanceState, "currentFragment");
             openFragment(currentFragment);
@@ -111,6 +112,7 @@ public class CalendarActivity extends AppCompatActivity implements UserListFragm
             }
         };
 
+    // Saves current active fragment before restart
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         getSupportFragmentManager().putFragment(outState, "currentFragment", currentFragment);

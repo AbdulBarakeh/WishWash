@@ -63,18 +63,21 @@ public class VideoFragment extends Fragment {
             public void onReady(YouTubePlayer youTubePlayer) {
                 super.onReady(youTubePlayer);
                 VideoFragment.this.youTubePlayer = youTubePlayer;
+                // Playing random video when opening
                 Random random = new Random();
                 int randomInt = random.nextInt(videoList.size());
                 youTubePlayer.loadVideo(videoList.get(randomInt).getLink(), 0);
             }
         });
 
+        // Recycler for showing available videos
         videoRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         videoRecyclerView.setLayoutManager(layoutManager);
         videoAdapter = new VideoAdapter(videoList);
         videoRecyclerView.setAdapter(videoAdapter);
 
+        // When clinking on a video, pick the right link and loads it using the youtube player
         videoAdapter.setOnItemClickListener(new VideoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) throws InterruptedException {
@@ -86,6 +89,7 @@ public class VideoFragment extends Fragment {
         return view;
     }
 
+    // Populate Recycler with all available videos
     private void populateVideoList() {
         String[] titles = getResources().getStringArray(R.array.video_title);
         String[] links = getResources().getStringArray(R.array.video_link);

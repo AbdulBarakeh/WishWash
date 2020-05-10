@@ -16,7 +16,6 @@ import app.project.wishwash.R;
 public class SignInSignUpFragment extends Fragment {
     // Declaring variables:
     private Button btn_sign_in, btn_sign_up;
-    //private Fragment fragment;
     private FragmentTransaction transaction;
 
     @Override
@@ -33,6 +32,7 @@ public class SignInSignUpFragment extends Fragment {
         btn_sign_up = v.findViewById(R.id.Button_signinsignup_signup);
 
         // Accessing variables:
+        // Opens respective fragments when clinking on sign in or sign up
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

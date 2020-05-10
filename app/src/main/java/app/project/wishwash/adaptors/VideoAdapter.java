@@ -24,12 +24,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    public void setVideo(ArrayList<Video> videoList){
-        this.videoList = videoList;
-        notifyDataSetChanged();
-        //TODO:Mikael check if this function is actually being used
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,6 +59,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
 
             videoTextView = RecyclerVideo.findViewById(R.id.videoTextView);
 
+            // Inspired from Abduls assignment 2. Solution for handling clicks in recycler
             RecyclerVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
