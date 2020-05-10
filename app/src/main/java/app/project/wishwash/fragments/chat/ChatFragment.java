@@ -93,7 +93,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 if (!messageInput.getText().toString().equals("")){
                     if (guestID == null || guestName == null){
-                        Toast.makeText(context,"Error occurred, reopen chat tab - Message not send" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.message_fail , Toast.LENGTH_SHORT).show();
                     }else{
                     Message currentMessage = new Message(UUID.randomUUID().toString(), new Date().toString(),messageInput.getText().toString(), owner, guest);
                     SendMessage(currentMessage);

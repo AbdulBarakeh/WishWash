@@ -47,4 +47,5 @@
     <string name="password_do_not_match">De to adgangskoder stemmer ikke overens! Venligst prøv igen</string>
     <string name="signup_unsuccessful">Noget gik galt! Venligst prøv igen</string>
     <string name="signup_successful">Du har successfuldt tilmeldt dig vores service</string>
+    <string name="message_fail">Fejl forekom, genåben chat vinduet - Besked ikke sendt</string>
 </resources>

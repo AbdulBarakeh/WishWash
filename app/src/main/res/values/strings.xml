@@ -46,7 +46,7 @@
     <string name="password_do_not_match">Passwords do not match! Please try again</string>
     <string name="signup_unsuccessful">Sign up unsuccessful! Please try again</string>
     <string name="signup_successful">You have successfully signed up to our service</string>
-
+    <string name="message_fail">Error occurred, reopen chat tab - Message not send</string>
 
 
     <string-array name="times">
