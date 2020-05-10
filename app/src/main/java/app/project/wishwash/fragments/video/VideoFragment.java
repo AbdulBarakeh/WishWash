@@ -1,6 +1,7 @@
 package app.project.wishwash.fragments.video;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -58,11 +59,12 @@ public class VideoFragment extends Fragment {
 
         populateVideoList();
 
+        // Initialising youtube player and start a random video
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(YouTubePlayer youTubePlayer) {
                 super.onReady(youTubePlayer);
-                VideoFragment.this.youTubePlayer = youTubePlayer;
+                VideoFragment.this.setYoutubePlayer(youTubePlayer);
                 // Playing random video when opening
                 Random random = new Random();
                 int randomInt = random.nextInt(videoList.size());
@@ -99,4 +101,7 @@ public class VideoFragment extends Fragment {
             videoList.add(video);
         }
     }
+
+    // Setting youtube player so in can be used inside video fragment
+    void setYoutubePlayer(YouTubePlayer youTubePlayer){ this.youTubePlayer = youTubePlayer; }
 }
